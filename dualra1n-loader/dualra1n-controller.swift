@@ -36,7 +36,7 @@ public class Actions: ObservableObject {
             return
         }
          
-        guard let helper = Bundle.main.path(forAuxiliaryExecutable: "dualra1n-loaderHelper") else {
+        guard let helper = Bundle.main.path(forAuxiliaryExecutable: "dualra1n-helper") else {
             addToLog(msg: "Could not find helper")
             isWorking = false
             return

@@ -4,7 +4,7 @@
 //
 //  Created by Amy While on 12/09/2022.
 //
-// Some of this code belongs to Amy While and is from https://github.com/elihwyma/Pogo
+// Most of this code belongs to Amy While and is from https://github.com/elihwyma/Pogo
 
 import Foundation
 import ArgumentParser

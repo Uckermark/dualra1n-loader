@@ -18,11 +18,14 @@ struct SettingsView: View {
     }
     var body: some View {
         VStack {
+            Text("Settings")
+                .padding()
+                .font(.headline)
             List {
                 Section(header: Text("SETTINGS")) {
                     Toggle("Enable Verbose", isOn: $action.verbose)
                 }
-                Section(header: Text("TOOLS")) {
+                Section(header: Text("TOOLS"), footer: Text("Restore RootFS is not available yet")) {
                     Button("Rebuild Icon Cache", action: action.runUiCache)
                     Button("Remount Preboot", action: action.remountPreboot)
                     Button("Launch Daemons", action: action.launchDaemons)
@@ -34,10 +37,11 @@ struct SettingsView: View {
             Spacer()
             HStack {
                 Text("v\(version) (\(gitCommit))")
+                    .padding()
                 Spacer()
             }
-            Divider()
         }
-        //.background(Color(.systemGroupedBackground))
+        .background(Color(.systemGroupedBackground))
+        .ignoresSafeArea()
     }
 }

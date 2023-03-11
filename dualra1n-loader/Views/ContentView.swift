@@ -12,27 +12,12 @@ struct ContentView: View {
     @State private var showTools = false
     @State private var showSettings = false
     init(act: Actions) {
-        UITabBar.appearance().backgroundColor = .systemGroupedBackground
         action = act
     }
     var body: some View {
         ZStack {
             BackgroundView()
             JailbreakView(action: action)
-            /*TabView {
-                JailbreakView(action: action)
-                    .tabItem {
-                        Label("Jailbreak", systemImage: "wand.and.stars")
-                    }
-                LogView(action: action)
-                    .tabItem {
-                        Label("Log", systemImage: "doc.text.magnifyingglass")
-                }
-                SettingsView(action: action)
-                    .tabItem {
-                        Label("Tools", systemImage: "wrench.and.screwdriver")
-                    }
-            }*/
         }
     }
 }

@@ -21,6 +21,6 @@ struct JailbreakView: View {
             Spacer()
             Divider()
         }
-        .background(Color(.systemGroupedBackground))
+        //.background(Color(.systemGroupedBackground))
     }
 }

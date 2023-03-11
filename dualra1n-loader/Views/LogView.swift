@@ -25,6 +25,6 @@ struct LogView: View {
                 Divider()
             }
         }
-        .background(Color(.systemGroupedBackground))
+        //.background(Color(.systemGroupedBackground))
     }
 }

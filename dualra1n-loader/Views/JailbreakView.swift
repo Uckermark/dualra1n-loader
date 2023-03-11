@@ -36,12 +36,18 @@ struct JailbreakView: View {
             if !FileManager().fileExists(atPath: "/.procursus_strapped") {
                 Button("Jailbreak", action: action.Install)
                     .padding()
-                    .background(Color.black)
                     .foregroundColor(.white)
+                    .background(Color.black)
                     .cornerRadius(10)
             } else {
                 Button("Re-jailbreak", action: action.runTools)
+                    .padding()
+                    .foregroundColor(.white)
+                    .background(Color.black)
+                    .cornerRadius(10)
             }
+            Text(action.statusText)
+                .foregroundColor(.white)
             Spacer()
             Divider()
         }

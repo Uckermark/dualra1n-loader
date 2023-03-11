@@ -12,14 +12,14 @@ import SwiftUI
 struct BackgroundView: View {
     var body: some View {
         // Create a custom gradient background that animates randomly
-        GradientBackground(colors: [Color.purple, .pink, .blue].map { $0.adjusted(toSaturation: 1.5, brightness: 0.8) })
+        GradientBackground(colors: [Color.blue, .purple, .pink].map { $0.adjusted(toSaturation: 1.5, brightness: 0.8) })
             .edgesIgnoringSafeArea(.all)
     }
 }
 
 struct GradientBackground: View {
     var colors: [Color]
-    let interval = 30
+    let interval = 5
     @State private var startPoint = UnitPoint(x: 0, y: 0)
     @State private var endPoint = UnitPoint(x: 1, y: 1)
     
@@ -34,10 +34,10 @@ struct GradientBackground: View {
     }
     
     private func randomizeStartAndEndPoints() {
-        let x1 = Double.random(in: 0...1)
-        let y1 = Double.random(in: 0...1)
-        let x2 = Double.random(in: 0...1)
-        let y2 = Double.random(in: 0...1)
+        let x1 = Double.random(in: 0...0.8)
+        let y1 = Double.random(in: 0...0.8)
+        let x2 = Double.random(in: 0.3...1)
+        let y2 = Double.random(in: 0.3...1)
         startPoint = UnitPoint(x: x1, y: y1)
         endPoint = UnitPoint(x: x2, y: y2)
     }

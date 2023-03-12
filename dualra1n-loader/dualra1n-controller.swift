@@ -41,14 +41,32 @@ public class Actions: ObservableObject {
             isWorking = false
             return
         }
+        
+        guard let libswift = Bundle.main.path(forResource: "libswift", ofType: ".deb") else {
+            addToLog(msg: "Could not find Substitute deb")
+            isWorking = false
+            return
+        }
          
-        guard let deb = Bundle.main.path(forResource: "sileo", ofType: ".deb") else {
+        guard let sileo = Bundle.main.path(forResource: "sileo", ofType: ".deb") else {
             addToLog(msg: "Could not find Sileo deb")
             isWorking = false
             return
         }
         
+        guard let safemode = Bundle.main.path(forResource: "safemode", ofType: ".deb") else {
+            addToLog(msg: "Could not find Safemode deb")
+            isWorking = false
+            return
+        }
+        
         guard let substitute = Bundle.main.path(forResource: "substitute", ofType: ".deb") else {
+            addToLog(msg: "Could not find Substitute deb")
+            isWorking = false
+            return
+        }
+        
+        guard let preferenceloader = Bundle.main.path(forResource: "preferenceloader", ofType: ".deb") else {
             addToLog(msg: "Could not find Substitute deb")
             isWorking = false
             return
@@ -76,11 +94,14 @@ public class Actions: ObservableObject {
                         }
                         self.addToLog(msg: "Installing Sileo")
                         DispatchQueue.global(qos: .utility).async {
-                            let ret = spawn(command: "/usr/bin/dpkg", args: ["-i", deb], root: true)
-                            let ret1 = spawn(command: "/usr/bin/dpkg", args: ["-i", substitute], root: true)
+                            let ret0 = spawn(command: "/usr/bin/dpkg", args: ["-i", libswift], root: true)
+                            let ret1 = spawn(command: "/usr/bin/dpkg", args: ["-i", sileo], root: true)
+                            let ret2 = spawn(command: "/usr/bin/dpkg", args: ["-i", safemode], root: true)
+                            let ret3 = spawn(command: "/usr/bin/dpkg", args: ["-i", substitute], root: true)
+                            let ret4 = spawn(command: "/usr/bin/dpkg", args: ["-i", preferenceloader], root: true)
                             DispatchQueue.main.async {
-                                self.vLog(msg: ret.1 + ret1.1)
-                                if ret.0 != 0 || ret1.0 != 0 {
+                                self.vLog(msg: ret0.1 + ret1.1 + ret2.1 + ret3.1 + ret4.1)
+                                if ret.0 != 0 || ret1.0 != 0 || ret2.0 != 0 || ret3.0 != 0 || ret4.0 != 0 {
                                     self.addToLog(msg: "Failed to install debs")
                                     self.isWorking = false
                                     return

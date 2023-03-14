@@ -24,6 +24,16 @@ struct SettingsView: View {
             List {
                 Section(header: Text("SETTINGS")) {
                     Toggle("Enable Verbose", isOn: $action.verbose)
+                    let themes = ["CyanLagune", "SwiftUI"]
+                    Picker("Select Theme", selection: $action.prefs.theme) {
+                        ForEach(themes, id: \.self) {
+                            Text($0)
+                        }
+                    }
+                    .onDisappear() {
+                        action.prefs.save()
+                    }
+                    .pickerStyle(.menu)
                 }
                 Section(header: Text("TOOLS"), footer: Text("Restore RootFS is not available yet")) {
                     Button("Rebuild Icon Cache", action: action.runUiCache)

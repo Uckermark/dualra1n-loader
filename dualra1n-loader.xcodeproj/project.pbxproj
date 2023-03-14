@@ -11,12 +11,12 @@
 		0A1A8BDE28FCA92700C96F02 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1A8BDD28FCA92700C96F02 /* ContentView.swift */; };
 		0A1A8BE028FCA93600C96F02 /* dualra1n-controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1A8BDF28FCA93600C96F02 /* dualra1n-controller.swift */; };
 		0A1A8BE228FDD1A000C96F02 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1A8BE128FDD1A000C96F02 /* SettingsView.swift */; };
-		0A5DD086291E3CAC007F6ED7 /* JailbreakView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5DD085291E3CAC007F6ED7 /* JailbreakView.swift */; };
 		0A5DD088291E3F0F007F6ED7 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5DD087291E3F0F007F6ED7 /* LogView.swift */; };
 		D704461C29BE31740018E8AC /* safemode.deb in Resources */ = {isa = PBXBuildFile; fileRef = D704461B29BE315F0018E8AC /* safemode.deb */; };
 		D704461E29BE34A60018E8AC /* libswift.deb in Frameworks */ = {isa = PBXBuildFile; fileRef = D704461D29BE34A60018E8AC /* libswift.deb */; };
 		D704462029BE34AE0018E8AC /* preferenceloader.deb in Frameworks */ = {isa = PBXBuildFile; fileRef = D704461F29BE34AE0018E8AC /* preferenceloader.deb */; };
 		D75C541529BB8F9F0051A74C /* substitute.deb in Resources */ = {isa = PBXBuildFile; fileRef = D75C541429BB8F8A0051A74C /* substitute.deb */; };
+		D776D1B929C114D200A9C00F /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = D776D1B829C114D200A9C00F /* Preferences.swift */; };
 		D784986629BF962100BBB869 /* IrregularGradient in Frameworks */ = {isa = PBXBuildFile; productRef = D784986529BF962100BBB869 /* IrregularGradient */; };
 		D784986729BF9F0E00BBB869 /* libswift.deb in Resources */ = {isa = PBXBuildFile; fileRef = D704461D29BE34A60018E8AC /* libswift.deb */; };
 		D784986829BF9F0E00BBB869 /* preferenceloader.deb in Resources */ = {isa = PBXBuildFile; fileRef = D704461F29BE34AE0018E8AC /* preferenceloader.deb */; };
@@ -47,7 +47,6 @@
 		0A1A8BDD28FCA92700C96F02 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		0A1A8BDF28FCA93600C96F02 /* dualra1n-controller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "dualra1n-controller.swift"; sourceTree = "<group>"; };
 		0A1A8BE128FDD1A000C96F02 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		0A5DD085291E3CAC007F6ED7 /* JailbreakView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JailbreakView.swift; sourceTree = "<group>"; };
 		0A5DD087291E3F0F007F6ED7 /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
 		0AC2F1AE2926EECD003A2DE8 /* dualra1n-loader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "dualra1n-loader.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AC2F1AF2926EECD003A2DE8 /* dualra1n-helper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "dualra1n-helper"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -55,6 +54,7 @@
 		D704461D29BE34A60018E8AC /* libswift.deb */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libswift.deb; sourceTree = "<group>"; };
 		D704461F29BE34AE0018E8AC /* preferenceloader.deb */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = preferenceloader.deb; sourceTree = "<group>"; };
 		D75C541429BB8F8A0051A74C /* substitute.deb */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = substitute.deb; sourceTree = "<group>"; };
+		D776D1B829C114D200A9C00F /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		D786928E29BCD7E600CCF161 /* BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
 		D7872D3329BB6AFE000749F0 /* bootstrap.tar */ = {isa = PBXFileReference; lastKnownFileType = archive.tar; name = bootstrap.tar; path = "../../../dualra1n-loader/dualra1n-loader/Required/bootstrap.tar"; sourceTree = "<group>"; };
 		D7872D3529BB6D04000749F0 /* sileo.deb */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = sileo.deb; sourceTree = "<group>"; };
@@ -94,7 +94,6 @@
 			children = (
 				0A1A8BDD28FCA92700C96F02 /* ContentView.swift */,
 				0A1A8BE128FDD1A000C96F02 /* SettingsView.swift */,
-				0A5DD085291E3CAC007F6ED7 /* JailbreakView.swift */,
 				0A5DD087291E3F0F007F6ED7 /* LogView.swift */,
 				D786928E29BCD7E600CCF161 /* BackgroundView.swift */,
 			);
@@ -105,6 +104,7 @@
 			isa = PBXGroup;
 			children = (
 				E1C440AB28D0EDFB000DBB1A /* CommandRunner.swift */,
+				D776D1B829C114D200A9C00F /* Preferences.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -278,8 +278,8 @@
 				D786928F29BCD7E600CCF161 /* BackgroundView.swift in Sources */,
 				E1C440AC28D0EDFB000DBB1A /* CommandRunner.swift in Sources */,
 				0A1A8BDE28FCA92700C96F02 /* ContentView.swift in Sources */,
-				0A5DD086291E3CAC007F6ED7 /* JailbreakView.swift in Sources */,
 				0A5DD088291E3F0F007F6ED7 /* LogView.swift in Sources */,
+				D776D1B929C114D200A9C00F /* Preferences.swift in Sources */,
 				0A1A8BE028FCA93600C96F02 /* dualra1n-controller.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -15,8 +15,10 @@ public class Actions: ObservableObject {
     @Published var log: String
     @Published var verbose: Bool
     @Published var statusText: String
+    @Published var prefs: Preferences
 
     init() {
+        prefs = Preferences()
         isWorking = false
         log = ""
         statusText = " "

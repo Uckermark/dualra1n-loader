@@ -17,7 +17,7 @@ struct dualra1nApp: App {
     }
     var body: some Scene {
         WindowGroup {
-            ContentView(act: action)
+            ContentView(action: action)
         }
     }
 }

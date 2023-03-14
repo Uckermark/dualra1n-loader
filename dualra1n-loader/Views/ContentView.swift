@@ -9,11 +9,6 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject var action: Actions
-    @State private var showTools = false
-    @State private var showSettings = false
-    init(act: Actions) {
-        action = act
-    }
     var body: some View {
         ZStack {
             BackgroundView()

@@ -17,7 +17,7 @@ struct JailbreakView: View {
                 Button(action: { log.toggle() }) {
                     Image(systemName: "doc.text.magnifyingglass")
                 }
-                    .foregroundColor(.black)
+                    .modifier(transparentButton())
                     .sheet(isPresented: $log) {
                         LogView(action: action)
                     }
@@ -26,7 +26,7 @@ struct JailbreakView: View {
                 Button(action: { settings.toggle() }) {
                     Image(systemName: "gearshape")
                 }
-                    .foregroundColor(.black)
+                    .modifier(transparentButton())
                     .sheet(isPresented: $settings) {
                         SettingsView(action: action)
                     }
@@ -35,22 +35,25 @@ struct JailbreakView: View {
             Spacer()
             if !FileManager().fileExists(atPath: "/.procursus_strapped") {
                 Button("Jailbreak", action: action.Install)
-                    .padding()
-                    .foregroundColor(.white)
-                    .background(Color.black)
-                    .cornerRadius(10)
+                    .modifier(transparentButton())
             } else {
                 Button("Re-jailbreak", action: action.runTools)
-                    .padding()
-                    .foregroundColor(.white)
-                    .background(Color.black)
-                    .cornerRadius(10)
+                    .modifier(transparentButton())
             }
             Text(action.statusText)
                 .foregroundColor(.white)
             Spacer()
             Divider()
         }
-        //.background(Color(.systemGroupedBackground))
+    }
+}
+
+struct transparentButton: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .padding(EdgeInsets(top: 0.1, leading: 0.1, bottom: 0.1, trailing: 0.1))
+            .foregroundColor(.white)
+            .background(Color.black.opacity(0.3))
+            .cornerRadius(10)
     }
 }

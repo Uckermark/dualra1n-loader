@@ -72,18 +72,18 @@ public class Actions: ObservableObject {
             return
         }
         
-        addToLog(msg: "Installing Bootstrap")
+        addToLog(msg: "Extracting bootstrap")
         DispatchQueue.global(qos: .utility).async { [self] in
             let ret1 = spawn(command: "/sbin/mount", args: ["-uw", "/"], root: true).1
             let ret = spawn(command: helper, args: ["-i", tar], root: true)
             DispatchQueue.main.async {
                 self.vLog(msg: ret1)
                 if ret.0 != 0 {
-                    self.addToLog(msg: "Error Installing Bootstrap")
+                    self.addToLog(msg: "Failed to extract bootstrap")
                     self.isWorking = false
                     return
                 }
-                self.addToLog(msg: "Preparing Bootstrap")
+                self.addToLog(msg: "Preparing bootstrap")
                 DispatchQueue.global(qos: .utility).async {
                     let ret = spawn(command: "/usr/bin/sh", args: ["/prep_bootstrap.sh"], root: true)
                     DispatchQueue.main.async {
@@ -137,12 +137,12 @@ public class Actions: ObservableObject {
         let fm = FileManager.default
         let apps = try? fm.contentsOfDirectory(atPath: "/Applications")
         if apps == nil {
-            self.addToLog(msg: "Could not access Applications")
+            self.addToLog(msg: "Could not access /Applications")
             return
         }
         let excludeApps = ["Sidecar.app", "Xcode Previews.app"]
         for app in apps ?? [] {
-            if app.hasSuffix(".app") && excludeApps.contains(app) {
+            if app.hasSuffix(".app") && !excludeApps.contains(app) {
                 let ret = spawn(command: "/usr/bin/uicache", args: ["-p", "/Applications/\(app)"], root: true)
                 self.vLog(msg: ret.1)
                 self.addToLog(msg: "App \(app) refreshed")
@@ -173,10 +173,10 @@ public class Actions: ObservableObject {
         }
         let ret = spawn(command: "/bin/launchctl", args: ["bootstrap", "system", "/Library/LaunchDaemons"], root: true)
         vLog(msg: ret.1)
-        if ret.0 != 0 && ret.0 != 34048 {
-            addToLog(msg: "Failed to launch Daemons")
-        } else {
-            addToLog(msg: "Launched Daemons")
+        if ret.0 == 0 {
+            addToLog(msg: "Launched daemons")
+        } else if ret.0 == 34048 {
+            addToLog(msg: "Daemons already launched")
         }
     }
     

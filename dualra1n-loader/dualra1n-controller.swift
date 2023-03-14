@@ -43,7 +43,7 @@ public class Actions: ObservableObject {
         }
         
         guard let libswift = Bundle.main.path(forResource: "libswift", ofType: ".deb") else {
-            addToLog(msg: "Could not find Substitute deb")
+            addToLog(msg: "Could not find libswift deb")
             isWorking = false
             return
         }
@@ -67,7 +67,7 @@ public class Actions: ObservableObject {
         }
         
         guard let preferenceloader = Bundle.main.path(forResource: "preferenceloader", ofType: ".deb") else {
-            addToLog(msg: "Could not find Substitute deb")
+            addToLog(msg: "Could not find Preferenceloader deb")
             isWorking = false
             return
         }
@@ -155,13 +155,14 @@ public class Actions: ObservableObject {
         self.addToLog(msg: "Rebuilt Icon Cache")
     }
 
-    func remountPreboot() {
-        let ret = spawn(command: "/sbin/mount", args: ["-uw", "/"], root: true)
-        vLog(msg: ret.1)
-        if ret.0 == 0 {
-            addToLog(msg: "Remounted Preboot R/W")
+    func remountRW() {
+        let ret0 = spawn(command: "/sbin/mount", args: ["-uw", "/"], root: true)
+        let ret1 = spawn(command: "/sbin/mount", args: ["-uw", "/private/preboot/"], root: true)
+        vLog(msg: ret0.1 + ret1.1)
+        if ret0.0 == 0 || ret1.0 == 0 {
+            addToLog(msg: "Remounted R/W")
         } else {
-            addToLog(msg: "Failed to remount Preboot R/W")
+            addToLog(msg: "Failed to remount R/W")
         }
     }
     
@@ -197,13 +198,12 @@ public class Actions: ObservableObject {
             return
         }
         runUiCache()
-        remountPreboot()
+        remountRW()
         launchDaemons()
         respringJB()
     }
     
     func addToLog(msg: String) {
-        //NSLog(msg)
         statusText = msg
         log = log + "\n[*] " + msg
     }

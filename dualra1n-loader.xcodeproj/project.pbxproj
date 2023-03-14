@@ -17,6 +17,9 @@
 		D704461E29BE34A60018E8AC /* libswift.deb in Frameworks */ = {isa = PBXBuildFile; fileRef = D704461D29BE34A60018E8AC /* libswift.deb */; };
 		D704462029BE34AE0018E8AC /* preferenceloader.deb in Frameworks */ = {isa = PBXBuildFile; fileRef = D704461F29BE34AE0018E8AC /* preferenceloader.deb */; };
 		D75C541529BB8F9F0051A74C /* substitute.deb in Resources */ = {isa = PBXBuildFile; fileRef = D75C541429BB8F8A0051A74C /* substitute.deb */; };
+		D784986629BF962100BBB869 /* IrregularGradient in Frameworks */ = {isa = PBXBuildFile; productRef = D784986529BF962100BBB869 /* IrregularGradient */; };
+		D784986729BF9F0E00BBB869 /* libswift.deb in Resources */ = {isa = PBXBuildFile; fileRef = D704461D29BE34A60018E8AC /* libswift.deb */; };
+		D784986829BF9F0E00BBB869 /* preferenceloader.deb in Resources */ = {isa = PBXBuildFile; fileRef = D704461F29BE34AE0018E8AC /* preferenceloader.deb */; };
 		D786928F29BCD7E600CCF161 /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D786928E29BCD7E600CCF161 /* BackgroundView.swift */; };
 		D7872D3429BB6AFE000749F0 /* bootstrap.tar in Resources */ = {isa = PBXBuildFile; fileRef = D7872D3329BB6AFE000749F0 /* bootstrap.tar */; };
 		D7872D3729BB71D1000749F0 /* sileo.deb in Resources */ = {isa = PBXBuildFile; fileRef = D7872D3529BB6D04000749F0 /* sileo.deb */; };
@@ -77,6 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D784986629BF962100BBB869 /* IrregularGradient in Frameworks */,
 				D704461E29BE34A60018E8AC /* libswift.deb in Frameworks */,
 				D704462029BE34AE0018E8AC /* preferenceloader.deb in Frameworks */,
 			);
@@ -190,6 +194,7 @@
 			);
 			name = "dualra1n-loader";
 			packageProductDependencies = (
+				D784986529BF962100BBB869 /* IrregularGradient */,
 			);
 			productName = Pogo;
 			productReference = 0AC2F1AE2926EECD003A2DE8 /* dualra1n-loader.app */;
@@ -226,6 +231,7 @@
 			packageReferences = (
 				E131379B28CFB9B100754132 /* XCRemoteSwiftPackageReference "swift-argument-parser" */,
 				E17927D628D247B2009D8F83 /* XCRemoteSwiftPackageReference "SWCompression" */,
+				D784986429BF962100BBB869 /* XCRemoteSwiftPackageReference "IrregularGradient" */,
 			);
 			productRefGroup = E181BACD28CF914300CD25A6;
 			projectDirPath = "";
@@ -242,6 +248,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D784986729BF9F0E00BBB869 /* libswift.deb in Resources */,
+				D784986829BF9F0E00BBB869 /* preferenceloader.deb in Resources */,
 				D704461C29BE31740018E8AC /* safemode.deb in Resources */,
 				D75C541529BB8F9F0051A74C /* substitute.deb in Resources */,
 				D7872D3729BB71D1000749F0 /* sileo.deb in Resources */,
@@ -561,6 +569,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		D784986429BF962100BBB869 /* XCRemoteSwiftPackageReference "IrregularGradient" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/joogps/IrregularGradient";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 		E131379B28CFB9B100754132 /* XCRemoteSwiftPackageReference "swift-argument-parser" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-argument-parser.git";
@@ -580,6 +596,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		D784986529BF962100BBB869 /* IrregularGradient */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D784986429BF962100BBB869 /* XCRemoteSwiftPackageReference "IrregularGradient" */;
+			productName = IrregularGradient;
+		};
 		E131379C28CFB9B100754132 /* ArgumentParser */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = E131379B28CFB9B100754132 /* XCRemoteSwiftPackageReference "swift-argument-parser" */;

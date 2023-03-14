@@ -6,17 +6,23 @@
 //
 
 import SwiftUI
+import IrregularGradient
 
 
 // This is not ready yet. Needs to be tested on a real device
 struct BackgroundView: View {
     var body: some View {
-        // Create a custom gradient background that animates randomly
-        GradientBackground(colors: [Color.blue, .purple, .pink].map { $0.adjusted(toSaturation: 1.5, brightness: 0.8) })
-            .edgesIgnoringSafeArea(.all)
+        let themes: [[Color]] = [
+            [.init(red: 0.011765, green: 0.972549, blue: 0.988235), .init(red: 0.470588, green: 0.988235, blue: 0.168627), .init(red: 0.941176, green: 0.882352, blue: 0.094118)],
+            [.init(red: 0, green: 0, blue: 0), .init(red: 0, green: 0, blue: 0), .init(red: 0, green: 0, blue: 0)]]
+        Rectangle()
+            .irregularGradient(colors: themes[0], background: themes[0][0], animate: true, speed: 0.5)
+            .blur(radius: 25)
+            .ignoresSafeArea()
     }
 }
 
+/*
 struct GradientBackground: View {
     var colors: [Color]
     let interval = 5
@@ -55,4 +61,4 @@ extension Color {
         return Color(UIColor(hue: hue, saturation: saturationComponent, brightness: brightnessComponent, alpha: alphaComponent))
     }
 }
-
+*/

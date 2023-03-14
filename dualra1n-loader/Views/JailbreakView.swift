@@ -17,7 +17,7 @@ struct JailbreakView: View {
                 Button(action: { log.toggle() }) {
                     Image(systemName: "doc.text.magnifyingglass")
                 }
-                    .foregroundColor(.white)
+                    .foregroundColor(.black)
                     .sheet(isPresented: $log) {
                         LogView(action: action)
                     }
@@ -26,7 +26,7 @@ struct JailbreakView: View {
                 Button(action: { settings.toggle() }) {
                     Image(systemName: "gearshape")
                 }
-                    .foregroundColor(.white)
+                    .foregroundColor(.black)
                     .sheet(isPresented: $settings) {
                         SettingsView(action: action)
                     }

@@ -27,7 +27,7 @@ struct SettingsView: View {
                 }
                 Section(header: Text("TOOLS"), footer: Text("Restore RootFS is not available yet")) {
                     Button("Rebuild Icon Cache", action: action.runUiCache)
-                    Button("Remount Preboot", action: action.remountPreboot)
+                    Button("Remount R/W", action: action.remountRW)
                     Button("Launch Daemons", action: action.launchDaemons)
                     Button("Respring", action: action.respringJB)
                     Button("Restore RootFS", action: action.respringJB)

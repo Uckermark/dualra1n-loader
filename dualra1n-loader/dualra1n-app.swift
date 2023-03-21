@@ -9,15 +9,21 @@ import Foundation
 import SwiftUI
 
 @main
-struct dualra1nApp: App {
-    var action: Actions
-    
-    init() {
-        action = Actions()
+struct dualra1nApp {
+    static func main() {
+        if #available(iOS 14.0, *) {
+            Not_a_bypass.main()
+        } else {
+            UIApplicationMain(CommandLine.argc, CommandLine.unsafeArgv, nil, NSStringFromClass(SceneDelegate.self))
+        }
     }
+}
+
+@available(iOS 14.0, *)
+struct Not_a_bypass: App {
     var body: some Scene {
         WindowGroup {
-            ContentView(action: action)
+            ContentView(action: Actions())
         }
     }
 }

@@ -28,6 +28,6 @@ struct LogView: View {
                 .opacity(action.log.count > 0 ? 0 : 1)
         }
         .background(Color(.systemGroupedBackground))
-        .ignoresSafeArea()
+        .edgesIgnoringSafeArea(.all)
     }
 }

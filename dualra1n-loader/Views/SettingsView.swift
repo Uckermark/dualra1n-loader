@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @Environment(\.openURL) private var openURL
     @ObservedObject var action: Actions
     private let gitCommit = Bundle.main.infoDictionary?["REVISION"] as? String ?? "unknown"
     private let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "unknown"
+    
+    let themes = ["Coastal Breeze", "Sunset Vibes"]
     
     init(action: Actions) {
         self.action = action
@@ -24,8 +25,16 @@ struct SettingsView: View {
             List {
                 Section(header: Text("SETTINGS")) {
                     Toggle("Enable Verbose", isOn: $action.verbose)
-                    let themes = ["CyanLagune", "SwiftUI"]
-                    Picker("Select Theme", selection: $action.prefs.theme) {
+                }
+                Section(header: Text("TOOLS")) {
+                    Button("Rebuild Icon Cache", action: action.runUiCache)
+                    Button("Remount R/W", action: action.remountRW)
+                    Button("Launch Daemons", action: action.launchDaemons)
+                    Button("Respring", action: action.respringJB)
+                }
+                Section(header: Text("DESIGN")) {
+                    Text("Select theme")
+                    Picker("", selection: $action.prefs.theme) {
                         ForEach(themes, id: \.self) {
                             Text($0)
                         }
@@ -33,15 +42,7 @@ struct SettingsView: View {
                     .onDisappear() {
                         action.prefs.save()
                     }
-                    .pickerStyle(.menu)
-                }
-                Section(header: Text("TOOLS"), footer: Text("Restore RootFS is not available yet")) {
-                    Button("Rebuild Icon Cache", action: action.runUiCache)
-                    Button("Remount R/W", action: action.remountRW)
-                    Button("Launch Daemons", action: action.launchDaemons)
-                    Button("Respring", action: action.respringJB)
-                    Button("Restore RootFS", action: action.respringJB)
-                        .disabled(true)
+                    .pickerStyle(.wheel)
                 }
             }
             Spacer()
@@ -52,6 +53,6 @@ struct SettingsView: View {
             }
         }
         .background(Color(.systemGroupedBackground))
-        .ignoresSafeArea()
+        .edgesIgnoringSafeArea(.all)
     }
 }

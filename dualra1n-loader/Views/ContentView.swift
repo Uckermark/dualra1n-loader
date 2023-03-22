@@ -27,7 +27,7 @@ struct ContentView: View {
                             .padding()
                     Spacer()
                     Button(action: { settings.toggle() }) {
-                        Image(systemName: "gearshape")
+                        Image(systemName: "gear")
                     }
                     .modifier(transparentButton(padding: 8))
                         .sheet(isPresented: $settings) {

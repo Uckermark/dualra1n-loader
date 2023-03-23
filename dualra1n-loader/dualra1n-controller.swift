@@ -22,7 +22,7 @@ public class Actions: ObservableObject {
         isWorking = false
         log = ""
         statusText = " "
-        verbose = false
+        verbose = true
     }
     
     func Install() {
@@ -74,10 +74,22 @@ public class Actions: ObservableObject {
             return
         }
         
+        let bootstrap = JBDevice().getBootstrap()
+        guard let url = bootstrap.0, let file = bootstrap.1 else {
+            addToLog(msg: "Could not get bootstrap for your device")
+            isWorking = false
+            return
+        }
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let bootstrapURL = documentsURL.appendingPathComponent(file)
+        if(!FileManager().fileExists(atPath: bootstrapURL.absoluteString)) {
+            downloadFile(url: url, file: file)
+        }
+        
         addToLog(msg: "Extracting bootstrap")
         DispatchQueue.global(qos: .utility).async { [self] in
             let ret1 = spawn(command: "/sbin/mount", args: ["-uw", "/"], root: true).1
-            let ret = spawn(command: helper, args: ["-i", tar], root: true)
+            let ret = spawn(command: helper, args: ["-i", bootstrapURL.absoluteString], root: true)
             DispatchQueue.main.async {
                 self.vLog(msg: ret1)
                 if ret.0 != 0 {
@@ -215,12 +227,36 @@ public class Actions: ObservableObject {
             log = log + "\n[v] " + msg
         }
     }
-
+    
     func isJailbroken() -> Bool {
         if FileManager().fileExists(atPath: "/.procursus_strapped"){
             return true
         } else {
             return false
         }
+    }
+    
+    func downloadFile(url: URL, file: String) -> Void {
+        addToLog(msg: "[*] Downloading \(file)")
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let fileURL = documentsURL.appendingPathComponent(file)
+        let semaphore = DispatchSemaphore(value: 0)
+        let config = URLSessionConfiguration.default
+        let session = URLSession(configuration: config)
+        let task = session.downloadTask(with: url) { tempLocalUrl, response, error in
+            if let tempLocalUrl = tempLocalUrl, error == nil {
+                do {
+                    try FileManager.default.copyItem(at: tempLocalUrl, to: fileURL)
+                    self.addToLog(msg: "[+] Downloaded \(file)")
+                    semaphore.signal()
+                } catch (let writeError) {
+                    self.addToLog(msg: "[-] Could not copy file to disk: \(writeError)")
+                }
+            } else {
+                self.addToLog(msg: "[-] Could not download file: \(error?.localizedDescription ?? "Unknown error")")
+            }
+        }
+        task.resume()
+        semaphore.wait()
     }
 }

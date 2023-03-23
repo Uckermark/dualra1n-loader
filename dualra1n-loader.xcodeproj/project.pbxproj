@@ -15,6 +15,7 @@
 		D704461C29BE31740018E8AC /* safemode.deb in Resources */ = {isa = PBXBuildFile; fileRef = D704461B29BE315F0018E8AC /* safemode.deb */; };
 		D704461E29BE34A60018E8AC /* libswift.deb in Frameworks */ = {isa = PBXBuildFile; fileRef = D704461D29BE34A60018E8AC /* libswift.deb */; };
 		D704462029BE34AE0018E8AC /* preferenceloader.deb in Frameworks */ = {isa = PBXBuildFile; fileRef = D704461F29BE34AE0018E8AC /* preferenceloader.deb */; };
+		D72D6B2129CC354A00F379AF /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72D6B2029CC354A00F379AF /* DeviceInfo.swift */; };
 		D753421029C9C1080057A767 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D753420F29C9C1080057A767 /* SceneDelegate.swift */; };
 		D75C541529BB8F9F0051A74C /* substitute.deb in Resources */ = {isa = PBXBuildFile; fileRef = D75C541429BB8F8A0051A74C /* substitute.deb */; };
 		D776D1B929C114D200A9C00F /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = D776D1B829C114D200A9C00F /* Preferences.swift */; };
@@ -54,6 +55,7 @@
 		D704461B29BE315F0018E8AC /* safemode.deb */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = safemode.deb; sourceTree = "<group>"; };
 		D704461D29BE34A60018E8AC /* libswift.deb */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libswift.deb; sourceTree = "<group>"; };
 		D704461F29BE34AE0018E8AC /* preferenceloader.deb */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = preferenceloader.deb; sourceTree = "<group>"; };
+		D72D6B2029CC354A00F379AF /* DeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfo.swift; sourceTree = "<group>"; };
 		D753420F29C9C1080057A767 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		D75C541429BB8F8A0051A74C /* substitute.deb */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = substitute.deb; sourceTree = "<group>"; };
 		D776D1B829C114D200A9C00F /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 			children = (
 				E1C440AB28D0EDFB000DBB1A /* CommandRunner.swift */,
 				D776D1B829C114D200A9C00F /* Preferences.swift */,
+				D72D6B2029CC354A00F379AF /* DeviceInfo.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -285,6 +288,7 @@
 				0A5DD088291E3F0F007F6ED7 /* LogView.swift in Sources */,
 				D776D1B929C114D200A9C00F /* Preferences.swift in Sources */,
 				0A1A8BE028FCA93600C96F02 /* dualra1n-controller.swift in Sources */,
+				D72D6B2129CC354A00F379AF /* DeviceInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

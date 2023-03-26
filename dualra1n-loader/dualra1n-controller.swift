@@ -32,8 +32,18 @@ public class Actions: ObservableObject {
         }
         isWorking = true
          
-        let tar = "/jbin/binpack/usr/bin/tar"
-        let gzip = "/jbin/binpack/usr/bin/gzip"
+        var tar: String
+        var gzip: String
+        if(FileManager().fileExists(atPath: "/jbin")) {
+            tar = "/jbin/binpack/usr/bin/tar"
+            gzip = "/jbin/binpack/usr/bin/gzip"
+        } else if(FileManager().fileExists(atPath: "/binpack")) {
+            tar = "/binpack/usr/bin/tar"
+            gzip="/binpack/usr/bin/gzip"
+        } else {
+            addToLog(msg: "No binpack found")
+            return
+        }
          
         guard let sileo = Bundle.main.path(forResource: "sileo", ofType: ".deb") else {
             addToLog(msg: "Could not find Sileo deb")

@@ -18,8 +18,6 @@
 		D784986629BF962100BBB869 /* IrregularGradient in Frameworks */ = {isa = PBXBuildFile; productRef = D784986529BF962100BBB869 /* IrregularGradient */; };
 		D786928F29BCD7E600CCF161 /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D786928E29BCD7E600CCF161 /* BackgroundView.swift */; };
 		D7872D3729BB71D1000749F0 /* sileo.deb in Resources */ = {isa = PBXBuildFile; fileRef = D7872D3529BB6D04000749F0 /* sileo.deb */; };
-		D7A78EAB29D09C3E00FDF847 /* uicache.m in Sources */ = {isa = PBXBuildFile; fileRef = D7A78EAA29D09C3E00FDF847 /* uicache.m */; };
-		D7A78EAE29D09CC100FDF847 /* TSUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = D7A78EAD29D09CC100FDF847 /* TSUtil.m */; };
 		E131378F28CFA16B00754132 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = E131378E28CFA16B00754132 /* main.swift */; };
 		E131379D28CFB9B100754132 /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = E131379C28CFB9B100754132 /* ArgumentParser */; };
 		E17927D828D247B2009D8F83 /* SWCompression in Frameworks */ = {isa = PBXBuildFile; productRef = E17927D728D247B2009D8F83 /* SWCompression */; };
@@ -53,10 +51,7 @@
 		D786928E29BCD7E600CCF161 /* BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
 		D7872D3529BB6D04000749F0 /* sileo.deb */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = sileo.deb; sourceTree = "<group>"; };
 		D7872D3829BB7289000749F0 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
-		D7A78EAA29D09C3E00FDF847 /* uicache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = uicache.m; sourceTree = "<group>"; };
-		D7A78EAC29D09C7A00FDF847 /* CoreServices.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoreServices.h; sourceTree = "<group>"; };
-		D7A78EAD29D09CC100FDF847 /* TSUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TSUtil.m; sourceTree = "<group>"; };
-		D7A78EAF29D09CED00FDF847 /* TSUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TSUtil.h; sourceTree = "<group>"; };
+		D7A78EB029D0C0A500FDF847 /* helper-bridging-header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "helper-bridging-header.h"; sourceTree = "<group>"; };
 		E131378228CF9C1B00754132 /* dualra1n-bridging-header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "dualra1n-bridging-header.h"; sourceTree = "<group>"; };
 		E131378E28CFA16B00754132 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		E181BAE228CF914500CD25A6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -106,17 +101,6 @@
 			path = Utility;
 			sourceTree = "<group>";
 		};
-		D7A78EA929D09C2B00FDF847 /* TS */ = {
-			isa = PBXGroup;
-			children = (
-				D7A78EAA29D09C3E00FDF847 /* uicache.m */,
-				D7A78EAC29D09C7A00FDF847 /* CoreServices.h */,
-				D7A78EAD29D09CC100FDF847 /* TSUtil.m */,
-				D7A78EAF29D09CED00FDF847 /* TSUtil.h */,
-			);
-			path = TS;
-			sourceTree = "<group>";
-		};
 		E131378128CF9B8800754132 /* Required */ = {
 			isa = PBXGroup;
 			children = (
@@ -128,8 +112,8 @@
 		E131378828CFA0BC00754132 /* dualra1n-helper */ = {
 			isa = PBXGroup;
 			children = (
-				D7A78EA929D09C2B00FDF847 /* TS */,
 				E131378E28CFA16B00754132 /* main.swift */,
+				D7A78EB029D0C0A500FDF847 /* helper-bridging-header.h */,
 			);
 			path = "dualra1n-helper";
 			sourceTree = "<group>";
@@ -265,9 +249,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D7A78EAB29D09C3E00FDF847 /* uicache.m in Sources */,
 				E131378F28CFA16B00754132 /* main.swift in Sources */,
-				D7A78EAE29D09CC100FDF847 /* TSUtil.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -302,18 +284,21 @@
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_EXTENSION = "";
 				EXECUTABLE_SUFFIX = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
 				MACH_O_TYPE = mh_execute;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"$(inherited)",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
-				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/dualra1n-loader/dualra1n-bridging-header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/dualra1n-helper/helper-bridging-header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -331,18 +316,21 @@
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_EXTENSION = "";
 				EXECUTABLE_SUFFIX = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
 				MACH_O_TYPE = mh_execute;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"$(inherited)",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
-				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/dualra1n-loader/dualra1n-bridging-header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/dualra1n-helper/helper-bridging-header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

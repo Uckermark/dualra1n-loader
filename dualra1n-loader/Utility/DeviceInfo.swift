@@ -19,14 +19,15 @@ public class JBDevice {
     }
     
     func getBootstrap() -> (url: URL?, file: String?) {
+        let server = "https://uckermark.github.io/bootstrap/"
         if(iosVersion >= 14.0) {
-            return (URL(string: "https://uckermark.tk/bootstrap/bootstrap_1500.tar"), "bootstrap_1500.tar")
+            return (URL(string: server + "bootstrap_1500.tar"), "bootstrap_1500.tar")
         }
         else if(iosVersion >= 13.0) {
-            return (URL(string: "https://uckermark.tk/bootstrap/bootstrap_1600.tar"), "bootstrap_1600.tar")
+            return (URL(string: server + "bootstrap_1600.tar"), "bootstrap_1600.tar")
         }
         else if(iosVersion >= 12.0) {
-            return (URL(string: "https://uckermark.tk/bootstrap/bootstrap_1700.tar"), "bootstrap_1700.tar")
+            return (URL(string: server + "bootstrap_1700.tar"), "bootstrap_1700.tar")
         }
         return (nil, nil)
     }

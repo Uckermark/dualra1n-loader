@@ -25,6 +25,7 @@ struct SettingsView: View {
             List {
                 Section(header: Text("SETTINGS")) {
                     Toggle("Enable Verbose", isOn: $action.verbose)
+                    Button("Delete cached bootstrap", action: action.deleteBootstrap)
                 }
                 Section(header: Text("TOOLS")) {
                     Button("Rebuild Icon Cache", action: action.runUiCache)

@@ -14,87 +14,101 @@ public class Actions: ObservableObject {
     private var isWorking: Bool
     @Published var log: String
     @Published var verbose: Bool
+    @Published var statusText: String
+    @Published var prefs: Preferences
 
     init() {
+        prefs = Preferences()
         isWorking = false
         log = ""
-        verbose = false
+        statusText = " "
+        verbose = true
     }
     
     func Install() {
         guard !isWorking else {
-            addToLog(msg: "[*] Installer is busy")
+            addToLog(msg: "Installer is busy")
             return
         }
         isWorking = true
-        
-        guard let tar = Bundle.main.path(forResource: "bootstrap", ofType: "tar") else {
-            addToLog(msg: "[*] Could not find Bootstrap")
-            isWorking = false
+         
+        var tar: String
+        var gzip: String
+        if(FileManager().fileExists(atPath: "/jbin")) {
+            tar = "/jbin/binpack/usr/bin/tar"
+            gzip = "/jbin/binpack/usr/bin/gzip"
+        } else if(FileManager().fileExists(atPath: "/binpack")) {
+            tar = "/binpack/usr/bin/tar"
+            gzip="/binpack/usr/bin/gzip"
+        } else {
+            addToLog(msg: "No binpack found")
             return
         }
          
-        guard let helper = Bundle.main.path(forAuxiliaryExecutable: "dualra1n-loaderHelper") else {
-            addToLog(msg: "[*] Could not find helper")
-            isWorking = false
-            return
-        }
-         
-        guard let deb = Bundle.main.path(forResource: "sileo", ofType: ".deb") else {
-            addToLog(msg: "[*] Could not find Sileo deb")
+        guard let sileo = Bundle.main.path(forResource: "sileo", ofType: ".deb") else {
+            addToLog(msg: "Could not find Sileo deb")
             isWorking = false
             return
         }
         
-        guard let substitute = Bundle.main.path(forResource: "substitute", ofType: ".deb") else {
-            addToLog(msg: "[*] Could not find Substitute deb")
+        let bootstrap = JBDevice().getBootstrap()
+        guard let url = bootstrap.0, let file = bootstrap.1 else {
+            addToLog(msg: "Could not get bootstrap for your device")
             isWorking = false
             return
         }
         
-        addToLog(msg: "[*] Installing Bootstrap")
-        DispatchQueue.global(qos: .utility).async { [self] in
-            let ret1 = spawn(command: "/sbin/mount", args: ["-uw", "/"], root: true).1
-            let ret = spawn(command: helper, args: ["-i", tar], root: true)
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let bootstrapURL = documentsURL.appendingPathComponent(file)
+        DispatchQueue.global(qos: .utility).async {
+            if(!FileManager().fileExists(atPath: bootstrapURL.absoluteString.replacingOccurrences(of: "file://", with: ""))) {
+                self.downloadFile(url: url, file: file)
+            }
             DispatchQueue.main.async {
-                self.vLog(msg: ret1)
-                if ret.0 != 0 {
-                    self.addToLog(msg: "[*] Error Installing Bootstrap")
-                    self.isWorking = false
-                    return
-                }
-                self.addToLog(msg: "[*] Preparing Bootstrap")
-                DispatchQueue.global(qos: .utility).async {
-                    let ret = spawn(command: "/usr/bin/sh", args: ["/prep_bootstrap.sh"], root: true)
+                self.addToLog(msg: "Extracting bootstrap")
+                DispatchQueue.global(qos: .utility).async { [self] in
+                    let ret1 = spawn(command: "/sbin/mount", args: ["-uw", "/"], root: true).1
+                    let ret = spawn(command: tar, args: ["--preserve-permissions", "-xkf", bootstrapURL.absoluteString.replacingOccurrences(of: "file://", with: ""), "-C", "/"], root: true)
                     DispatchQueue.main.async {
-                        self.vLog(msg: ret.1)
+                        self.vLog(msg: ret1 + ret.1)
                         if ret.0 != 0 {
+                            self.addToLog(msg: "Failed to extract bootstrap")
                             self.isWorking = false
                             return
                         }
-                        self.addToLog(msg: "[*] Installing Sileo")
+                        self.addToLog(msg: "Preparing bootstrap")
                         DispatchQueue.global(qos: .utility).async {
-                            let ret = spawn(command: "/usr/bin/dpkg", args: ["-i", deb], root: true)
-                            let ret1 = spawn(command: "/usr/bin/dpkg", args: ["-i", substitute], root: true)
+                            let ret = spawn(command: "/usr/bin/sh", args: ["/prep_bootstrap.sh"], root: true)
                             DispatchQueue.main.async {
-                                self.vLog(msg: ret.1 + ret1.1)
-                                if ret.0 != 0 || ret1.0 != 0 {
-                                    self.addToLog(msg: "[*] Failed to install debs")
+                                self.vLog(msg: ret.1)
+                                if ret.0 != 0 {
                                     self.isWorking = false
                                     return
                                 }
-                                self.addToLog(msg: "[*] UICache Sileo")
+                                self.addToLog(msg: "Installing Sileo")
                                 DispatchQueue.global(qos: .utility).async {
-                                    let ret = spawn(command: "/usr/bin/uicache", args: ["-p", "/Applications/Sileo.app"], root: true)
+                                    let ret = spawn(command: "/usr/bin/dpkg", args: ["-i", sileo], root: true)
                                     DispatchQueue.main.async {
                                         self.vLog(msg: ret.1)
                                         if ret.0 != 0 {
-                                            self.addToLog(msg: "[*] Failed to run uicache")
+                                            self.addToLog(msg: "Failed to install debs")
                                             self.isWorking = false
                                             return
                                         }
-                                        self.addToLog(msg: "[*] Successfully installed Procursus and Sileo")
-                                        self.isWorking = false
+                                        self.addToLog(msg: "UICache Sileo")
+                                        DispatchQueue.global(qos: .utility).async {
+                                            let ret = spawn(command: "/usr/bin/uicache", args: ["-p", "/Applications/Sileo.app"], root: true)
+                                            DispatchQueue.main.async {
+                                                self.vLog(msg: ret.1)
+                                                if ret.0 != 0 {
+                                                    self.addToLog(msg: "Failed to run uicache")
+                                                    self.isWorking = false
+                                                    return
+                                                }
+                                                self.addToLog(msg: "Successfully installed Procursus and Sileo")
+                                                self.isWorking = false
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -105,96 +119,137 @@ public class Actions: ObservableObject {
         }
     }
     
+    func deleteBootstrap() {
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        guard let bootstrap = JBDevice().getBootstrap().1 else {
+            addToLog(msg: "Failed to fetch bootstrap URL")
+            return
+        }
+        let bootstrapURL = documentsURL.appendingPathComponent(bootstrap)
+        vLog(msg: "Deleting \(bootstrapURL.absoluteString)")
+        do {
+            try FileManager().removeItem(at: bootstrapURL)
+        } catch {
+            addToLog(msg: error.localizedDescription)
+        }
+    }
+    
     func runUiCache() {
         guard isJailbroken() else{
-            addToLog(msg: "[*] Could not find Bootstrap. Are you jailbroken?")
+            addToLog(msg: "Could not find Bootstrap. Are you jailbroken?")
             return
         }
         // for every .app file in /Applications, run uicache -p
         let fm = FileManager.default
         let apps = try? fm.contentsOfDirectory(atPath: "/Applications")
         if apps == nil {
-            self.addToLog(msg: "[*] Could not access Applications")
+            self.addToLog(msg: "Could not access /Applications")
             return
         }
         let excludeApps = ["Sidecar.app", "Xcode Previews.app"]
         for app in apps ?? [] {
-            if app.hasSuffix(".app") && excludeApps.contains(app) {
+            if app.hasSuffix(".app") && !excludeApps.contains(app) {
                 let ret = spawn(command: "/usr/bin/uicache", args: ["-p", "/Applications/\(app)"], root: true)
                 self.vLog(msg: ret.1)
-                self.addToLog(msg: "[*] App \(app) refreshed")
+                self.addToLog(msg: "App \(app) refreshed")
                 if ret.0 != 0 {
-                    self.addToLog(msg: "[*] failed to rebuild IconCache (\(ret))")
+                    self.addToLog(msg: "Failed to rebuild IconCache (\(ret))")
                     return
                 }
             }
         }
-        self.addToLog(msg: "[*] Rebuilt Icon Cache")
+        self.addToLog(msg: "Rebuilt Icon Cache")
     }
 
-    func remountPreboot() {
-        let ret = spawn(command: "/sbin/mount", args: ["-uw", "/"], root: true)
-        vLog(msg: ret.1)
-        if ret.0 == 0 {
-            addToLog(msg: "[*] Remounted Preboot R/W")
+    func remountRW() {
+        let ret0 = spawn(command: "/sbin/mount", args: ["-uw", "/"], root: true)
+        let ret1 = spawn(command: "/sbin/mount", args: ["-uw", "/private/preboot/"], root: true)
+        vLog(msg: ret0.1 + ret1.1)
+        if ret0.0 == 0 || ret1.0 == 0 {
+            addToLog(msg: "Remounted R/W")
         } else {
-            addToLog(msg: "[*] Failed to remount Preboot R/W")
+            addToLog(msg: "Failed to remount R/W")
         }
     }
     
     func launchDaemons() {
         guard isJailbroken() else{
-            addToLog(msg: "[*] Could not find Bootstrap. Are you jailbroken?")
+            addToLog(msg: "Could not find Bootstrap. Are you jailbroken?")
             return
         }
         let ret = spawn(command: "/bin/launchctl", args: ["bootstrap", "system", "/Library/LaunchDaemons"], root: true)
         vLog(msg: ret.1)
-        if ret.0 != 0 && ret.0 != 34048 {
-            addToLog(msg: "[*] Failed to launch Daemons")
-        } else {
-            addToLog(msg: "[*] Launched Daemons")
+        if ret.0 == 0 {
+            addToLog(msg: "Launched daemons")
+        } else if ret.0 == 34048 {
+            addToLog(msg: "Daemons already launched")
         }
     }
     
     func respringJB() {
         guard isJailbroken() else{
-            addToLog(msg: "[*] Could not find Bootstrap. Are you jailbroken?")
+            addToLog(msg: "Could not find Bootstrap. Are you jailbroken?")
             return
         }
         let ret = spawn(command: "/usr/bin/killall", args: ["-9", "SpringBoard"], root: true)
         vLog(msg: ret.1)
         if ret.0 != 0 {
-            addToLog(msg: "[*] Respring failed")
+            addToLog(msg: "Respring failed")
         }
     }
     
     func runTools() {
         guard isJailbroken() else {
-            addToLog(msg: "[*] Could not find Bootstrap. Are you jailbroken?")
+            addToLog(msg: "Could not find Bootstrap. Are you jailbroken?")
             return
         }
         runUiCache()
-        remountPreboot()
+        remountRW()
         launchDaemons()
         respringJB()
     }
     
     func addToLog(msg: String) {
-        NSLog(msg)
-        log = log + "\n" + msg
+        statusText = msg
+        log = log + "\n[*] " + msg
     }
     
     func vLog(msg: String) {
         if verbose {
-            addToLog(msg: msg)
+            log = log + "\n[v] " + msg
         }
     }
-
+    
     func isJailbroken() -> Bool {
         if FileManager().fileExists(atPath: "/.procursus_strapped"){
             return true
         } else {
             return false
         }
+    }
+    
+    func downloadFile(url: URL, file: String) -> Void {
+        addToLog(msg: "Downloading \(file)")
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let fileURL = documentsURL.appendingPathComponent(file)
+        vLog(msg: "Downloading from \(url.absoluteString) to \(fileURL.absoluteString)")
+        let semaphore = DispatchSemaphore(value: 0)
+        let config = URLSessionConfiguration.default
+        let session = URLSession(configuration: config)
+        let task = session.downloadTask(with: url) { tempLocalUrl, response, error in
+            if let tempLocalUrl = tempLocalUrl, error == nil {
+                do {
+                    try FileManager.default.copyItem(at: tempLocalUrl, to: fileURL)
+                    self.addToLog(msg: "Downloaded \(file)")
+                    semaphore.signal()
+                } catch (let writeError) {
+                    self.addToLog(msg: "Could not copy file to disk: \(writeError)")
+                }
+            } else {
+                self.addToLog(msg: "Could not download file: \(error?.localizedDescription ?? "Unknown error")")
+            }
+        }
+        task.resume()
+        semaphore.wait()
     }
 }

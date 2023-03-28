@@ -11,20 +11,23 @@ struct LogView: View {
     @ObservedObject var action: Actions
     var body: some View {
         ZStack {
-            Text("Nothing here yet...")
-                .opacity(action.log.count > 0 ? 0 : 1)
-            ScrollView {
-                HStack {
-                    Text(action.log)
-                        .multilineTextAlignment(.leading)
-                    Spacer()
+            VStack {
+                Text("Log")
+                    .padding()
+                    .font(.headline)
+                ScrollView {
+                    HStack {
+                        Text(action.log)
+                            .multilineTextAlignment(.leading)
+                        Spacer()
+                    }
                 }
             }
-            VStack {
-                Spacer()
-                Divider()
-            }
+            .padding()
+            Text("Nothing here yet...")
+                .opacity(action.log.count > 0 ? 0 : 1)
         }
         .background(Color(.systemGroupedBackground))
+        .edgesIgnoringSafeArea(.all)
     }
 }

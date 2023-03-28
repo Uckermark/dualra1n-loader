@@ -11,10 +11,12 @@
 		0A1A8BDE28FCA92700C96F02 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1A8BDD28FCA92700C96F02 /* ContentView.swift */; };
 		0A1A8BE028FCA93600C96F02 /* dualra1n-controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1A8BDF28FCA93600C96F02 /* dualra1n-controller.swift */; };
 		0A1A8BE228FDD1A000C96F02 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1A8BE128FDD1A000C96F02 /* SettingsView.swift */; };
-		0A5DD086291E3CAC007F6ED7 /* JailbreakView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5DD085291E3CAC007F6ED7 /* JailbreakView.swift */; };
 		0A5DD088291E3F0F007F6ED7 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5DD087291E3F0F007F6ED7 /* LogView.swift */; };
-		D75C541529BB8F9F0051A74C /* substitute.deb in Resources */ = {isa = PBXBuildFile; fileRef = D75C541429BB8F8A0051A74C /* substitute.deb */; };
-		D7872D3429BB6AFE000749F0 /* bootstrap.tar in Resources */ = {isa = PBXBuildFile; fileRef = D7872D3329BB6AFE000749F0 /* bootstrap.tar */; };
+		D72D6B2129CC354A00F379AF /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72D6B2029CC354A00F379AF /* DeviceInfo.swift */; };
+		D753421029C9C1080057A767 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D753420F29C9C1080057A767 /* SceneDelegate.swift */; };
+		D776D1B929C114D200A9C00F /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = D776D1B829C114D200A9C00F /* Preferences.swift */; };
+		D784986629BF962100BBB869 /* IrregularGradient in Frameworks */ = {isa = PBXBuildFile; productRef = D784986529BF962100BBB869 /* IrregularGradient */; };
+		D786928F29BCD7E600CCF161 /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D786928E29BCD7E600CCF161 /* BackgroundView.swift */; };
 		D7872D3729BB71D1000749F0 /* sileo.deb in Resources */ = {isa = PBXBuildFile; fileRef = D7872D3529BB6D04000749F0 /* sileo.deb */; };
 		E131378F28CFA16B00754132 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = E131378E28CFA16B00754132 /* main.swift */; };
 		E131379D28CFB9B100754132 /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = E131379C28CFB9B100754132 /* ArgumentParser */; };
@@ -40,14 +42,16 @@
 		0A1A8BDD28FCA92700C96F02 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		0A1A8BDF28FCA93600C96F02 /* dualra1n-controller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "dualra1n-controller.swift"; sourceTree = "<group>"; };
 		0A1A8BE128FDD1A000C96F02 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		0A5DD085291E3CAC007F6ED7 /* JailbreakView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JailbreakView.swift; sourceTree = "<group>"; };
 		0A5DD087291E3F0F007F6ED7 /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
 		0AC2F1AE2926EECD003A2DE8 /* dualra1n-loader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "dualra1n-loader.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AC2F1AF2926EECD003A2DE8 /* dualra1n-helper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "dualra1n-helper"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D75C541429BB8F8A0051A74C /* substitute.deb */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = substitute.deb; sourceTree = "<group>"; };
-		D7872D3329BB6AFE000749F0 /* bootstrap.tar */ = {isa = PBXFileReference; lastKnownFileType = archive.tar; name = bootstrap.tar; path = "../../../dualra1n-loader/dualra1n-loader/Required/bootstrap.tar"; sourceTree = "<group>"; };
+		D72D6B2029CC354A00F379AF /* DeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfo.swift; sourceTree = "<group>"; };
+		D753420F29C9C1080057A767 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		D776D1B829C114D200A9C00F /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
+		D786928E29BCD7E600CCF161 /* BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
 		D7872D3529BB6D04000749F0 /* sileo.deb */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = sileo.deb; sourceTree = "<group>"; };
 		D7872D3829BB7289000749F0 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		D7A78EB029D0C0A500FDF847 /* helper-bridging-header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "helper-bridging-header.h"; sourceTree = "<group>"; };
 		E131378228CF9C1B00754132 /* dualra1n-bridging-header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "dualra1n-bridging-header.h"; sourceTree = "<group>"; };
 		E131378E28CFA16B00754132 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		E181BAE228CF914500CD25A6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -69,6 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D784986629BF962100BBB869 /* IrregularGradient in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,8 +85,8 @@
 			children = (
 				0A1A8BDD28FCA92700C96F02 /* ContentView.swift */,
 				0A1A8BE128FDD1A000C96F02 /* SettingsView.swift */,
-				0A5DD085291E3CAC007F6ED7 /* JailbreakView.swift */,
 				0A5DD087291E3F0F007F6ED7 /* LogView.swift */,
+				D786928E29BCD7E600CCF161 /* BackgroundView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -90,6 +95,8 @@
 			isa = PBXGroup;
 			children = (
 				E1C440AB28D0EDFB000DBB1A /* CommandRunner.swift */,
+				D776D1B829C114D200A9C00F /* Preferences.swift */,
+				D72D6B2029CC354A00F379AF /* DeviceInfo.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -97,8 +104,6 @@
 		E131378128CF9B8800754132 /* Required */ = {
 			isa = PBXGroup;
 			children = (
-				D75C541429BB8F8A0051A74C /* substitute.deb */,
-				D7872D3329BB6AFE000749F0 /* bootstrap.tar */,
 				D7872D3529BB6D04000749F0 /* sileo.deb */,
 			);
 			path = Required;
@@ -108,6 +113,7 @@
 			isa = PBXGroup;
 			children = (
 				E131378E28CFA16B00754132 /* main.swift */,
+				D7A78EB029D0C0A500FDF847 /* helper-bridging-header.h */,
 			);
 			path = "dualra1n-helper";
 			sourceTree = "<group>";
@@ -132,6 +138,7 @@
 				E131378228CF9C1B00754132 /* dualra1n-bridging-header.h */,
 				0A1A8BDF28FCA93600C96F02 /* dualra1n-controller.swift */,
 				0A1A8BDB28FCA91200C96F02 /* dualra1n-app.swift */,
+				D753420F29C9C1080057A767 /* SceneDelegate.swift */,
 				E181BAE228CF914500CD25A6 /* Assets.xcassets */,
 				E181BAE728CF914500CD25A6 /* Info.plist */,
 			);
@@ -176,6 +183,7 @@
 			);
 			name = "dualra1n-loader";
 			packageProductDependencies = (
+				D784986529BF962100BBB869 /* IrregularGradient */,
 			);
 			productName = Pogo;
 			productReference = 0AC2F1AE2926EECD003A2DE8 /* dualra1n-loader.app */;
@@ -212,6 +220,7 @@
 			packageReferences = (
 				E131379B28CFB9B100754132 /* XCRemoteSwiftPackageReference "swift-argument-parser" */,
 				E17927D628D247B2009D8F83 /* XCRemoteSwiftPackageReference "SWCompression" */,
+				D784986429BF962100BBB869 /* XCRemoteSwiftPackageReference "IrregularGradient" */,
 			);
 			productRefGroup = E181BACD28CF914300CD25A6;
 			projectDirPath = "";
@@ -228,9 +237,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D75C541529BB8F9F0051A74C /* substitute.deb in Resources */,
 				D7872D3729BB71D1000749F0 /* sileo.deb in Resources */,
-				D7872D3429BB6AFE000749F0 /* bootstrap.tar in Resources */,
 				E181BAE328CF914500CD25A6 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -252,11 +259,14 @@
 			files = (
 				0A1A8BE228FDD1A000C96F02 /* SettingsView.swift in Sources */,
 				0A1A8BDC28FCA91200C96F02 /* dualra1n-app.swift in Sources */,
+				D753421029C9C1080057A767 /* SceneDelegate.swift in Sources */,
+				D786928F29BCD7E600CCF161 /* BackgroundView.swift in Sources */,
 				E1C440AC28D0EDFB000DBB1A /* CommandRunner.swift in Sources */,
 				0A1A8BDE28FCA92700C96F02 /* ContentView.swift in Sources */,
-				0A5DD086291E3CAC007F6ED7 /* JailbreakView.swift in Sources */,
 				0A5DD088291E3F0F007F6ED7 /* LogView.swift in Sources */,
+				D776D1B929C114D200A9C00F /* Preferences.swift in Sources */,
 				0A1A8BE028FCA93600C96F02 /* dualra1n-controller.swift in Sources */,
+				D72D6B2129CC354A00F379AF /* DeviceInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,18 +284,21 @@
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_EXTENSION = "";
 				EXECUTABLE_SUFFIX = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
 				MACH_O_TYPE = mh_execute;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"$(inherited)",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
-				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/dualra1n-loader/dualra1n-bridging-header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/dualra1n-helper/helper-bridging-header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -303,18 +316,21 @@
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_EXTENSION = "";
 				EXECUTABLE_SUFFIX = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
 				MACH_O_TYPE = mh_execute;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"$(inherited)",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
-				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/dualra1n-loader/dualra1n-bridging-header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/dualra1n-helper/helper-bridging-header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -452,7 +468,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -490,7 +506,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -545,6 +561,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		D784986429BF962100BBB869 /* XCRemoteSwiftPackageReference "IrregularGradient" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/joogps/IrregularGradient";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 		E131379B28CFB9B100754132 /* XCRemoteSwiftPackageReference "swift-argument-parser" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-argument-parser.git";
@@ -564,6 +588,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		D784986529BF962100BBB869 /* IrregularGradient */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D784986429BF962100BBB869 /* XCRemoteSwiftPackageReference "IrregularGradient" */;
+			productName = IrregularGradient;
+		};
 		E131379C28CFB9B100754132 /* ArgumentParser */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = E131379B28CFB9B100754132 /* XCRemoteSwiftPackageReference "swift-argument-parser" */;

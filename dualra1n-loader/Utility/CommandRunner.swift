@@ -2,7 +2,7 @@
 //  CommandRunner.swift
 //  dualra1n
 //
-//  Created by Amy Uckermark on 13/02/2023.
+//  Created by Uckermark on 13/02/2023.
 //
 // Some of this code belongs to Amy While and is from https://github.com/elihwyma/Pogo
 
@@ -50,7 +50,7 @@ import Darwin.POSIX
     posix_spawnattr_set_persona_uid_np(&attr, 0);
     posix_spawnattr_set_persona_gid_np(&attr, 0);
     
-    let env = [ "PATH=/usr/local/sbin:/var/jb/usr/local/sbin:/usr/local/bin:/var/jb/usr/local/bin:/usr/sbin:/var/jb/usr/sbin:/usr/bin:/var/jb/usr/bin:/sbin:/var/jb/sbin:/bin:/var/jb/bin:/usr/bin/X11:/var/jb/usr/bin/X11:/usr/games:/var/jb/usr/games" ]
+    let env = [ "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/bin/X11:/usr/games" ]
     let proenv: [UnsafeMutablePointer<CChar>?] = env.map { $0.withCString(strdup) }
     defer { for case let pro? in proenv { free(pro) } }
     
@@ -139,5 +139,5 @@ import Darwin.POSIX
     for arg in args {
         cmd += arg + " "
     }
-    return (Int(status), "\(cmd)\nexit \(status)\n\(stderrStr)\(stdoutStr)")
+    return (Int(status), "\(status): \(cmd)\n\(stderrStr)\(stdoutStr)")
 }

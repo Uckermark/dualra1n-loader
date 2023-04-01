@@ -34,17 +34,24 @@ public class Actions: ObservableObject {
          
         var tar: String
         var gzip: String
-        if(FileManager().fileExists(atPath: "/jbin")) {
+        if(FileManager().fileExists(atPath: "/binpack")) {
+            tar = "/binpack/usr/bin/tar"
+            gzip = "/binpack/usr/bin/gzip"
+        } else if(FileManager().fileExists(atPath: "/jbin")) {
             tar = "/jbin/binpack/usr/bin/tar"
             gzip = "/jbin/binpack/usr/bin/gzip"
-        } else if(FileManager().fileExists(atPath: "/binpack")) {
-            tar = "/binpack/usr/bin/tar"
-            gzip="/binpack/usr/bin/gzip"
         } else {
             addToLog(msg: "No binpack found")
             return
         }
-         
+        vLog(msg: "\(tar)\n\(gzip)")
+        
+        guard let helper = Bundle.main.path(forAuxiliaryExecutable: "dualra1n-helper") else {
+            addToLog(msg: "Could not find helper")
+            isWorking = false
+            return
+        }
+        
         guard let sileo = Bundle.main.path(forResource: "sileo", ofType: ".deb") else {
             addToLog(msg: "Could not find Sileo deb")
             isWorking = false
@@ -68,7 +75,7 @@ public class Actions: ObservableObject {
                 self.addToLog(msg: "Extracting bootstrap")
                 DispatchQueue.global(qos: .utility).async { [self] in
                     let ret1 = spawn(command: "/sbin/mount", args: ["-uw", "/"], root: true).1
-                    let ret = spawn(command: tar, args: ["--preserve-permissions", "-xkf", bootstrapURL.absoluteString.replacingOccurrences(of: "file://", with: ""), "-C", "/"], root: true)
+                    let ret = spawn(command: helper, args: ["-i", bootstrapURL.absoluteString.replacingOccurrences(of: "file://", with: "")], root: true)
                     DispatchQueue.main.async {
                         self.vLog(msg: ret1 + ret.1)
                         if ret.0 != 0 {

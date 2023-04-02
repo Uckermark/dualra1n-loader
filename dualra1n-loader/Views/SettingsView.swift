@@ -12,48 +12,68 @@ struct SettingsView: View {
     private let gitCommit = Bundle.main.infoDictionary?["REVISION"] as? String ?? "unknown"
     private let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "unknown"
     
-    let themes = ["Coastal Breeze", "Sunset Vibes"]
-    
-    init(action: Actions) {
-        self.action = action
-    }
     var body: some View {
-        VStack {
-            Text("Settings")
-                .padding()
-                .font(.headline)
+        NavigationView {
             List {
-                Section(header: Text("SETTINGS")) {
-                    Toggle("Enable Verbose", isOn: $action.verbose)
-                    Button("Delete cached bootstrap", action: action.deleteBootstrap)
+                NavigationLink(destination: JailbreakSettingsView(action: action).navigationBarTitle("Jailbreak", displayMode: .inline)) {
+                    Text("Jailbreak")
                 }
-                Section(header: Text("TOOLS")) {
-                    Button("Rebuild Icon Cache", action: action.runUiCache)
-                    Button("Remount R/W", action: action.remountRW)
-                    Button("Launch Daemons", action: action.launchDaemons)
-                    Button("Respring", action: action.respringJB)
+                NavigationLink(destination: ToolsView(action: action).navigationBarTitle("Tools", displayMode: .inline)) {
+                    Text("Tools")
                 }
-                Section(header: Text("DESIGN")) {
-                    Text("Select theme")
-                    Picker("", selection: $action.prefs.theme) {
-                        ForEach(themes, id: \.self) {
-                            Text($0)
-                        }
-                    }
-                    .onDisappear() {
-                        action.prefs.save()
-                    }
-                    .pickerStyle(.wheel)
+                NavigationLink(destination: DesignSettingsView(action: action).navigationBarTitle("Design", displayMode: .inline)) {
+                    Text("Design")
                 }
-            }
-            Spacer()
-            HStack {
-                Text("v\(version) (\(gitCommit))")
-                    .padding()
-                Spacer()
+                NavigationLink(destination: LogView(action: action).navigationBarTitle("Credits", displayMode: .inline)) {
+                    Text("Credits (Coming soon™)")
+                }
+                .navigationBarTitle("Settings")
+                .disabled(true)
             }
         }
-        .background(Color(.systemGroupedBackground))
-        .edgesIgnoringSafeArea(.all)
+    }
+}
+
+struct JailbreakSettingsView: View {
+    @ObservedObject var action: Actions
+    
+    var body: some View {
+        List {
+            Toggle("Enable Verbose", isOn: $action.verbose)
+            Button("Delete cached bootstrap", action: action.deleteBootstrap)
+        }
+    }
+}
+
+struct ToolsView: View {
+    @ObservedObject var action: Actions
+    
+    var body: some View {
+        List {
+            Button("Rebuild Icon Cache", action: action.runUiCache)
+            Button("Remount R/W", action: action.remountRW)
+            Button("Launch Daemons", action: action.launchDaemons)
+            Button("Respring", action: action.respringJB)
+        }
+    }
+}
+
+struct DesignSettingsView: View {
+    @ObservedObject var action: Actions
+    let themes = ["Coastal Breeze", "Sunset Vibes"]
+    
+    var body: some View {
+        List {
+            Text("Select theme")
+            Picker("", selection: $action.prefs.theme) {
+                ForEach(themes, id: \.self) {
+                    Text($0)
+                }
+            }
+            .onDisappear() {
+                action.prefs.save()
+            }
+            .pickerStyle(.wheel)
+        }
     }
 }

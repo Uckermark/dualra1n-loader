@@ -31,21 +31,24 @@ public class Actions: ObservableObject {
             return
         }
         isWorking = true
-         
+        /*
         var tar: String
         var gzip: String
         if(FileManager().fileExists(atPath: "/binpack")) {
             tar = "/binpack/usr/bin/tar"
             gzip = "/binpack/usr/bin/gzip"
-        } else if(FileManager().fileExists(atPath: "/jbin")) {
+        } else if(FileManager().fileExists(atPath: "/jbin/binpack")) {
             tar = "/jbin/binpack/usr/bin/tar"
             gzip = "/jbin/binpack/usr/bin/gzip"
         } else {
             addToLog(msg: "No binpack found")
-            return
+            gzip = ""
+            tar = ""
         }
         vLog(msg: "\(tar)\n\(gzip)")
-        
+        // This will hopefully work once a proper binpack is used
+        // so the helper becomes unnecessary
+        */
         guard let helper = Bundle.main.path(forAuxiliaryExecutable: "dualra1n-helper") else {
             addToLog(msg: "Could not find helper")
             isWorking = false
@@ -74,11 +77,12 @@ public class Actions: ObservableObject {
             DispatchQueue.main.async {
                 self.addToLog(msg: "Extracting bootstrap")
                 DispatchQueue.global(qos: .utility).async { [self] in
-                    let ret1 = spawn(command: "/sbin/mount", args: ["-uw", "/"], root: true).1
-                    let ret = spawn(command: helper, args: ["-i", bootstrapURL.absoluteString.replacingOccurrences(of: "file://", with: "")], root: true)
+                    let ret0 = spawn(command: "/sbin/mount", args: ["-uw", "/"], root: true).1
+                    let ret1 = spawn(command: "/sbin/mount", args: ["-uw", "/private/preboot"], root: true).1
+                    let ret2 = spawn(command: helper, args: ["-i", bootstrapURL.absoluteString.replacingOccurrences(of: "file://", with: "")], root: true)
                     DispatchQueue.main.async {
-                        self.vLog(msg: ret1 + ret.1)
-                        if ret.0 != 0 {
+                        self.vLog(msg: ret0 + ret1 + ret2.1)
+                        if ret2.0 != 0 {
                             self.addToLog(msg: "Failed to extract bootstrap")
                             self.isWorking = false
                             return
@@ -170,7 +174,7 @@ public class Actions: ObservableObject {
 
     func remountRW() {
         let ret0 = spawn(command: "/sbin/mount", args: ["-uw", "/"], root: true)
-        let ret1 = spawn(command: "/sbin/mount", args: ["-uw", "/private/preboot/"], root: true)
+        let ret1 = spawn(command: "/sbin/mount", args: ["-uw", "/private/preboot"], root: true)
         vLog(msg: ret0.1 + ret1.1)
         if ret0.0 == 0 || ret1.0 == 0 {
             addToLog(msg: "Remounted R/W")
@@ -214,6 +218,7 @@ public class Actions: ObservableObject {
         remountRW()
         launchDaemons()
         respringJB()
+        addToLog(msg: "Done!")
     }
     
     func addToLog(msg: String) {

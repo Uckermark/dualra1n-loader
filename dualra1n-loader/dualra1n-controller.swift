@@ -55,8 +55,14 @@ public class Actions: ObservableObject {
             return
         }
         
-        guard let sileo = Bundle.main.path(forResource: "sileo", ofType: ".deb") else {
+        guard let sileo = Bundle.main.path(forResource: "sileo", ofType: "deb") else {
             addToLog(msg: "Could not find Sileo deb")
+            isWorking = false
+            return
+        }
+        
+        guard let libswift = Bundle.main.path(forResource: "libswift", ofType: "deb") else {
+            addToLog(msg: " Could not find libswift")
             isWorking = false
             return
         }
@@ -80,6 +86,8 @@ public class Actions: ObservableObject {
                     let ret0 = spawn(command: "/sbin/mount", args: ["-uw", "/"], root: true).1
                     let ret1 = spawn(command: "/sbin/mount", args: ["-uw", "/private/preboot"], root: true).1
                     let ret2 = spawn(command: helper, args: ["-i", bootstrapURL.absoluteString.replacingOccurrences(of: "file://", with: "")], root: true)
+                    spawn(command: "/usr/bin/chmod", args: ["4755", "/usr/bin/sudo"], root: true)
+                    spawn(command: "/usr/bin/chown", args: ["root:wheel", "/usr/bin/sudo"], root: true)
                     DispatchQueue.main.async {
                         self.vLog(msg: ret0 + ret1 + ret2.1)
                         if ret2.0 != 0 {
@@ -98,7 +106,7 @@ public class Actions: ObservableObject {
                                 }
                                 self.addToLog(msg: "Installing Sileo")
                                 DispatchQueue.global(qos: .utility).async {
-                                    let ret = spawn(command: "/usr/bin/dpkg", args: ["-i", sileo], root: true)
+                                    let ret = spawn(command: "/usr/bin/dpkg", args: ["-i", sileo, libswift], root: true)
                                     DispatchQueue.main.async {
                                         self.vLog(msg: ret.1)
                                         if ret.0 != 0 {

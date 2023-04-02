@@ -15,6 +15,7 @@
 		D72D6B2129CC354A00F379AF /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72D6B2029CC354A00F379AF /* DeviceInfo.swift */; };
 		D753421029C9C1080057A767 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D753420F29C9C1080057A767 /* SceneDelegate.swift */; };
 		D776D1B929C114D200A9C00F /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = D776D1B829C114D200A9C00F /* Preferences.swift */; };
+		D77C1FAD29DA1AD900C880E0 /* libswift.deb in Resources */ = {isa = PBXBuildFile; fileRef = D77C1FAC29DA1AC500C880E0 /* libswift.deb */; };
 		D784986629BF962100BBB869 /* IrregularGradient in Frameworks */ = {isa = PBXBuildFile; productRef = D784986529BF962100BBB869 /* IrregularGradient */; };
 		D786928F29BCD7E600CCF161 /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D786928E29BCD7E600CCF161 /* BackgroundView.swift */; };
 		D7872D3729BB71D1000749F0 /* sileo.deb in Resources */ = {isa = PBXBuildFile; fileRef = D7872D3529BB6D04000749F0 /* sileo.deb */; };
@@ -48,6 +49,7 @@
 		D72D6B2029CC354A00F379AF /* DeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfo.swift; sourceTree = "<group>"; };
 		D753420F29C9C1080057A767 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		D776D1B829C114D200A9C00F /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
+		D77C1FAC29DA1AC500C880E0 /* libswift.deb */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libswift.deb; sourceTree = "<group>"; };
 		D786928E29BCD7E600CCF161 /* BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
 		D7872D3529BB6D04000749F0 /* sileo.deb */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = sileo.deb; sourceTree = "<group>"; };
 		D7872D3829BB7289000749F0 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 			isa = PBXGroup;
 			children = (
 				D7872D3529BB6D04000749F0 /* sileo.deb */,
+				D77C1FAC29DA1AC500C880E0 /* libswift.deb */,
 			);
 			path = Required;
 			sourceTree = "<group>";
@@ -237,6 +240,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D77C1FAD29DA1AD900C880E0 /* libswift.deb in Resources */,
 				D7872D3729BB71D1000749F0 /* sileo.deb in Resources */,
 				E181BAE328CF914500CD25A6 /* Assets.xcassets in Resources */,
 			);

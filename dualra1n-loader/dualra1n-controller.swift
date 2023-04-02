@@ -264,4 +264,23 @@ public class Actions: ObservableObject {
         task.resume()
         semaphore.wait()
     }
+    
+    func installSileo() {
+        guard isJailbroken() else {
+            addToLog(msg: "Could not find bootstrap. Are you jailbroken?")
+            return
+        }
+        
+        guard let sileo = Bundle.main.path(forResource: "sileo", ofType: "deb") else {
+            addToLog(msg: "Could not find Sileo deb")
+            return
+        }
+        let ret = spawn(command: "/usr/bin/", args: ["-i", sileo], root: true)
+        vLog(msg: ret.1)
+        if(ret.0 == 0) {
+            addToLog(msg: "Installed Sileo")
+        } else {
+            addToLog(msg: "Failed to install Sileo")
+        }
+    }
 }

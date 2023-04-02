@@ -54,6 +54,7 @@ struct ToolsView: View {
             Button("Remount R/W", action: action.remountRW)
             Button("Launch Daemons", action: action.launchDaemons)
             Button("Respring", action: action.respringJB)
+            Button("Restore Sileo", action: action.installSileo)
         }
     }
 }

@@ -74,11 +74,12 @@ public class Actions: ObservableObject {
             DispatchQueue.main.async {
                 self.addToLog(msg: "Extracting bootstrap")
                 DispatchQueue.global(qos: .utility).async { [self] in
-                    let ret1 = spawn(command: "/sbin/mount", args: ["-uw", "/"], root: true).1
-                    let ret = spawn(command: helper, args: ["-i", bootstrapURL.absoluteString.replacingOccurrences(of: "file://", with: "")], root: true)
+                    let ret0 = spawn(command: "/sbin/mount", args: ["-uw", "/"], root: true).1
+                    let ret1 = spawn(command: "/sbin/mount", args: ["-uw", "/private/preboot"], root: true).1
+                    let ret2 = spawn(command: helper, args: ["-i", bootstrapURL.absoluteString.replacingOccurrences(of: "file://", with: "")], root: true)
                     DispatchQueue.main.async {
-                        self.vLog(msg: ret1 + ret.1)
-                        if ret.0 != 0 {
+                        self.vLog(msg: ret0 + ret1 + ret2.1)
+                        if ret2.0 != 0 {
                             self.addToLog(msg: "Failed to extract bootstrap")
                             self.isWorking = false
                             return
@@ -170,7 +171,7 @@ public class Actions: ObservableObject {
 
     func remountRW() {
         let ret0 = spawn(command: "/sbin/mount", args: ["-uw", "/"], root: true)
-        let ret1 = spawn(command: "/sbin/mount", args: ["-uw", "/private/preboot/"], root: true)
+        let ret1 = spawn(command: "/sbin/mount", args: ["-uw", "/private/preboot"], root: true)
         vLog(msg: ret0.1 + ret1.1)
         if ret0.0 == 0 || ret1.0 == 0 {
             addToLog(msg: "Remounted R/W")

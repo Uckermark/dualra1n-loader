@@ -31,21 +31,24 @@ public class Actions: ObservableObject {
             return
         }
         isWorking = true
-         
+        /*
         var tar: String
         var gzip: String
         if(FileManager().fileExists(atPath: "/binpack")) {
             tar = "/binpack/usr/bin/tar"
             gzip = "/binpack/usr/bin/gzip"
-        } else if(FileManager().fileExists(atPath: "/jbin")) {
+        } else if(FileManager().fileExists(atPath: "/jbin/binpack")) {
             tar = "/jbin/binpack/usr/bin/tar"
             gzip = "/jbin/binpack/usr/bin/gzip"
         } else {
             addToLog(msg: "No binpack found")
-            return
+            gzip = ""
+            tar = ""
         }
         vLog(msg: "\(tar)\n\(gzip)")
-        
+        // This will hopefully work once a proper binpack is used
+        // so the helper becomes unnecessary
+        */
         guard let helper = Bundle.main.path(forAuxiliaryExecutable: "dualra1n-helper") else {
             addToLog(msg: "Could not find helper")
             isWorking = false
@@ -215,6 +218,7 @@ public class Actions: ObservableObject {
         remountRW()
         launchDaemons()
         respringJB()
+        addToLog(msg: "Done!")
     }
     
     func addToLog(msg: String) {

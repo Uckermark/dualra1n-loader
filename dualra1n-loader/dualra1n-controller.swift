@@ -271,11 +271,11 @@ public class Actions: ObservableObject {
             return
         }
         
-        guard let sileo = Bundle.main.path(forResource: "sileo", ofType: "deb") else {
+        guard let sileo = Bundle.main.path(forResource: "sileo", ofType: ".deb") else {
             addToLog(msg: "Could not find Sileo deb")
             return
         }
-        let ret = spawn(command: "/usr/bin/", args: ["-i", sileo], root: true)
+        let ret = spawn(command: "/usr/bin/dpkg", args: ["-i", sileo], root: true)
         vLog(msg: ret.1)
         if(ret.0 == 0) {
             addToLog(msg: "Installed Sileo")

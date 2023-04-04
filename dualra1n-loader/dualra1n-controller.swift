@@ -267,7 +267,7 @@ public class Actions: ObservableObject {
     }
     
     func addSource() {
-        guard let sources = Bundle.main.path(forResource: "dualra1n", ofType: "list") else {
+        guard let sources = Bundle.main.path(forResource: "dualra1n", ofType: "sources") else {
             addToLog(msg: "Could not find sources")
             return
         }

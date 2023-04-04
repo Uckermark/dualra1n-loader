@@ -13,7 +13,7 @@
 		0A1A8BE228FDD1A000C96F02 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1A8BE128FDD1A000C96F02 /* SettingsView.swift */; };
 		0A5DD088291E3F0F007F6ED7 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5DD087291E3F0F007F6ED7 /* LogView.swift */; };
 		D72D6B2129CC354A00F379AF /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72D6B2029CC354A00F379AF /* DeviceInfo.swift */; };
-		D74A7EC429DC0168002C2419 /* dualra1n.list in Resources */ = {isa = PBXBuildFile; fileRef = D74A7EC329DC015C002C2419 /* dualra1n.list */; };
+		D74A7EC429DC0168002C2419 /* dualra1n.sources in Resources */ = {isa = PBXBuildFile; fileRef = D74A7EC329DC015C002C2419 /* dualra1n.sources */; };
 		D753421029C9C1080057A767 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D753420F29C9C1080057A767 /* SceneDelegate.swift */; };
 		D776D1B929C114D200A9C00F /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = D776D1B829C114D200A9C00F /* Preferences.swift */; };
 		D77C1FAD29DA1AD900C880E0 /* libswift.deb in Resources */ = {isa = PBXBuildFile; fileRef = D77C1FAC29DA1AC500C880E0 /* libswift.deb */; };
@@ -48,7 +48,7 @@
 		0AC2F1AE2926EECD003A2DE8 /* dualra1n-loader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "dualra1n-loader.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AC2F1AF2926EECD003A2DE8 /* dualra1n-helper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "dualra1n-helper"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D72D6B2029CC354A00F379AF /* DeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfo.swift; sourceTree = "<group>"; };
-		D74A7EC329DC015C002C2419 /* dualra1n.list */ = {isa = PBXFileReference; lastKnownFileType = text; path = dualra1n.list; sourceTree = "<group>"; };
+		D74A7EC329DC015C002C2419 /* dualra1n.sources */ = {isa = PBXFileReference; lastKnownFileType = text; path = dualra1n.sources; sourceTree = "<group>"; };
 		D753420F29C9C1080057A767 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		D776D1B829C114D200A9C00F /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		D77C1FAC29DA1AC500C880E0 /* libswift.deb */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libswift.deb; sourceTree = "<group>"; };
@@ -110,7 +110,7 @@
 			children = (
 				D7872D3529BB6D04000749F0 /* sileo.deb */,
 				D77C1FAC29DA1AC500C880E0 /* libswift.deb */,
-				D74A7EC329DC015C002C2419 /* dualra1n.list */,
+				D74A7EC329DC015C002C2419 /* dualra1n.sources */,
 			);
 			path = Required;
 			sourceTree = "<group>";
@@ -243,7 +243,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D74A7EC429DC0168002C2419 /* dualra1n.list in Resources */,
+				D74A7EC429DC0168002C2419 /* dualra1n.sources in Resources */,
 				D77C1FAD29DA1AD900C880E0 /* libswift.deb in Resources */,
 				D7872D3729BB71D1000749F0 /* sileo.deb in Resources */,
 				E181BAE328CF914500CD25A6 /* Assets.xcassets in Resources */,

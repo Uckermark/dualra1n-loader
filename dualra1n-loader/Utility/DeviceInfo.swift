@@ -15,12 +15,15 @@ public class JBDevice {
     init() {
         self.iosVersion = Double(ProcessInfo.processInfo.operatingSystemVersion.majorVersion) + Double(ProcessInfo.processInfo.operatingSystemVersion.minorVersion) * 0.1
         self.isJailbroken = FileManager().fileExists(atPath: "/.procursus_strapped")
-        self.isSupported = (13.0 <= iosVersion && iosVersion <= 15.0)
+        self.isSupported = (13.0 <= iosVersion && iosVersion <= 16.0)
     }
     
     func getBootstrap() -> (url: URL?, file: String?) {
         let server = "https://uckermark.github.io/bootstrap/"
-        if(iosVersion >= 14.0) {
+        if(iosVersion >= 15.0) {
+            return (URL(string: server + "bootstrap_1800.tar"), "bootstrap_1800.tar")
+        }
+        else if(iosVersion >= 14.0) {
             return (URL(string: server + "bootstrap_1700.tar"), "bootstrap_1700.tar")
         }
         else if(iosVersion >= 13.0) {

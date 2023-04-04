@@ -27,10 +27,11 @@ struct SettingsView: View {
                 NavigationLink(destination: LogView(action: action).navigationBarTitle("Credits", displayMode: .inline)) {
                     Text("Credits (Coming soon™)")
                 }
-                .navigationBarTitle("Settings")
+                .navigationBarTitle("Settings", displayMode: .inline)
                 .disabled(true)
             }
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

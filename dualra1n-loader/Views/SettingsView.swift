@@ -53,8 +53,10 @@ struct ToolsView: View {
             Button("Rebuild Icon Cache", action: action.runUiCache)
             Button("Remount R/W", action: action.remountRW)
             Button("Launch Daemons", action: action.launchDaemons)
+            Button("Enable Libhooker", action: action.enableLibhooker)
             Button("Respring", action: action.respringJB)
             Button("Restore Sileo", action: action.installSileo)
+            Button("Add sources", action: action.addSource)
         }
     }
 }

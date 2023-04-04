@@ -67,6 +67,12 @@ public class Actions: ObservableObject {
             return
         }
         
+        guard let sources = Bundle.main.path(forResource: "dualra1n", ofType: "list") else {
+            addToLog(msg: " Could not find sources")
+            isWorking = false
+            return
+        }
+        
         let bootstrap = JBDevice().getBootstrap()
         guard let url = bootstrap.0, let file = bootstrap.1 else {
             addToLog(msg: "Could not get bootstrap for your device")
@@ -106,10 +112,11 @@ public class Actions: ObservableObject {
                                 }
                                 self.addToLog(msg: "Installing Sileo")
                                 DispatchQueue.global(qos: .utility).async {
-                                    let ret = spawn(command: "/usr/bin/dpkg", args: ["-i", sileo, libswift], root: true)
+                                    let ret0 = spawn(command: "/usr/bin/dpkg", args: ["-i", sileo, libswift], root: true)
+                                    let ret1 = spawn(command: helper, args: ["-s", sources], root: true)
                                     DispatchQueue.main.async {
-                                        self.vLog(msg: ret.1)
-                                        if ret.0 != 0 {
+                                        self.vLog(msg: ret0.1 + ret1.1)
+                                        if ret0.0 != 0 {
                                             self.addToLog(msg: "Failed to install debs")
                                             self.isWorking = false
                                             return
@@ -217,16 +224,64 @@ public class Actions: ObservableObject {
         }
     }
     
-    func runTools() {
+    func enableLibhooker() {
         guard isJailbroken() else {
-            addToLog(msg: "Could not find Bootstrap. Are you jailbroken?")
+            addToLog(msg: "Could not find bootstrap. Are you jailbroken?")
             return
         }
+        let ret = spawn(command: "/etc/rc.d/libhooker", args: [], root: true)
+        if ret.0 != 0 {
+            addToLog(msg: "Failed to start libhooker")
+            vLog(msg: ret.1)
+        } else {
+            addToLog(msg: "Started libhooker")
+        }
+    }
+    
+    func runTools() {
         runUiCache()
         remountRW()
         launchDaemons()
+        enableLibhooker()
         respringJB()
         addToLog(msg: "Done!")
+    }
+    
+    func installSileo() {
+        guard isJailbroken() else {
+            addToLog(msg: "Could not find bootstrap. Are you jailbroken?")
+            return
+        }
+        
+        guard let sileo = Bundle.main.path(forResource: "sileo", ofType: ".deb") else {
+            addToLog(msg: "Could not find Sileo deb")
+            return
+        }
+        let ret = spawn(command: "/usr/bin/dpkg", args: ["-i", sileo], root: true)
+        vLog(msg: ret.1)
+        if(ret.0 == 0) {
+            addToLog(msg: "Installed Sileo")
+        } else {
+            addToLog(msg: "Failed to install Sileo")
+        }
+    }
+    
+    func addSource() {
+        guard let sources = Bundle.main.path(forResource: "dualra1n", ofType: "list") else {
+            addToLog(msg: "Could not find sources")
+            return
+        }
+        guard let helper = Bundle.main.path(forAuxiliaryExecutable: "dualra1n-helper") else {
+            addToLog(msg: "Could not find helper")
+            return
+        }
+        let ret = spawn(command: helper, args: ["-s", sources], root: true)
+        if ret.0 == 0 {
+            addToLog(msg: "Added sources")
+        } else {
+            addToLog(msg: "Failed to add sources")
+        }
+        vLog(msg: ret.1)
     }
     
     func addToLog(msg: String) {
@@ -271,24 +326,5 @@ public class Actions: ObservableObject {
         }
         task.resume()
         semaphore.wait()
-    }
-    
-    func installSileo() {
-        guard isJailbroken() else {
-            addToLog(msg: "Could not find bootstrap. Are you jailbroken?")
-            return
-        }
-        
-        guard let sileo = Bundle.main.path(forResource: "sileo", ofType: ".deb") else {
-            addToLog(msg: "Could not find Sileo deb")
-            return
-        }
-        let ret = spawn(command: "/usr/bin/dpkg", args: ["-i", sileo], root: true)
-        vLog(msg: ret.1)
-        if(ret.0 == 0) {
-            addToLog(msg: "Installed Sileo")
-        } else {
-            addToLog(msg: "Failed to install Sileo")
-        }
     }
 }

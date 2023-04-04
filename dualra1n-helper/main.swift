@@ -14,12 +14,26 @@ struct Strap: ParsableCommand {
     @Option(name: .shortAndLong, help: "The path to the .tar file you want to strap with")
     var input: String?
     
+    @Option(name: .shortAndLong, help: "The path to the source file you want to add")
+    var source: String?
+    
     mutating func run() throws {
         NSLog("[dualra1n helper] Spawned!")
         guard getuid() == 0 else { fatalError() }
         
         if let input = input {
             strapTool(input)
+        } else if let source = source {
+            addSource(source)
+        }
+    }
+    
+    func addSource(_ source: String) {
+        let dest = "/etc/apt/sources.list.d/" + URL(string: source)!.lastPathComponent
+        do {
+            try FileManager().copyItem(atPath: source, toPath: dest)
+        } catch {
+            NSLog("[dualra1n helper] Could not copy apt sources: \(error.localizedDescription)")
         }
     }
     

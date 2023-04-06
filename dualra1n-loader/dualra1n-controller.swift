@@ -30,27 +30,23 @@ public class Actions: ObservableObject {
             addToLog(msg: "Installer is busy")
             return
         }
+        
         isWorking = true
-        /*
-        var tar: String
-        var gzip: String
-        if(FileManager().fileExists(atPath: "/binpack")) {
-            tar = "/binpack/usr/bin/tar"
-            gzip = "/binpack/usr/bin/gzip"
-        } else if(FileManager().fileExists(atPath: "/jbin/binpack")) {
-            tar = "/jbin/binpack/usr/bin/tar"
-            gzip = "/jbin/binpack/usr/bin/gzip"
-        } else {
-            addToLog(msg: "No binpack found")
-            gzip = ""
-            tar = ""
-        }
-        vLog(msg: "\(tar)\n\(gzip)")
-        // This will hopefully work once a proper binpack is used
-        // so the helper becomes unnecessary
-        */
+        
         guard let helper = Bundle.main.path(forAuxiliaryExecutable: "dualra1n-helper") else {
             addToLog(msg: "Could not find helper")
+            isWorking = false
+            return
+        }
+        
+        guard let tsHelper = Bundle.main.path(forAuxiliaryExecutable: "trollstore13helper") else {
+            addToLog(msg: "Could not find trollstorehelper")
+            isWorking = false
+            return
+        }
+        
+        guard let tsTar = Bundle.main.path(forResource: "TrollStore", ofType: "tar") else {
+            addToLog(msg: "Could not find trollstore tar")
             isWorking = false
             return
         }
@@ -89,44 +85,46 @@ public class Actions: ObservableObject {
             DispatchQueue.main.async {
                 self.addToLog(msg: "Extracting bootstrap")
                 DispatchQueue.global(qos: .utility).async { [self] in
-                    let ret0 = spawn(command: "/sbin/mount", args: ["-uw", "/"], root: true).1
-                    let ret1 = spawn(command: "/sbin/mount", args: ["-uw", "/private/preboot"], root: true).1
-                    let ret2 = spawn(command: helper, args: ["-i", bootstrapURL.absoluteString.replacingOccurrences(of: "file://", with: "")], root: true)
+                    let mountRoot = spawn(command: "/sbin/mount", args: ["-uw", "/"], root: true)
+                    //let mountPreboot = spawn(command: "/sbin/mount", args: ["-uw", "/private/preboot"], root: true)
+                    let bootstrap = spawn(command: helper, args: ["-i", bootstrapURL.absoluteString.replacingOccurrences(of: "file://", with: "")], root: true)
                     spawn(command: "/usr/bin/chmod", args: ["4755", "/usr/bin/sudo"], root: true)
                     spawn(command: "/usr/bin/chown", args: ["root:wheel", "/usr/bin/sudo"], root: true)
                     DispatchQueue.main.async {
-                        self.vLog(msg: ret0 + ret1 + ret2.1)
-                        if ret2.0 != 0 {
+                        self.vLog(msg: mountRoot.1 /*+ mountPreboot.1*/ + bootstrap.1)
+                        if bootstrap.0 != 0 {
                             self.addToLog(msg: "Failed to extract bootstrap")
                             self.isWorking = false
                             return
                         }
                         self.addToLog(msg: "Preparing bootstrap")
                         DispatchQueue.global(qos: .utility).async {
-                            let ret = spawn(command: "/usr/bin/sh", args: ["/prep_bootstrap.sh"], root: true)
+                            let prepareBootstrap = spawn(command: "/usr/bin/sh", args: ["/prep_bootstrap.sh"], root: true)
                             DispatchQueue.main.async {
-                                self.vLog(msg: ret.1)
-                                if ret.0 != 0 {
+                                self.vLog(msg: prepareBootstrap.1)
+                                if prepareBootstrap.0 != 0 {
                                     self.isWorking = false
                                     return
                                 }
                                 self.addToLog(msg: "Installing Sileo")
                                 DispatchQueue.global(qos: .utility).async {
-                                    let ret0 = spawn(command: "/usr/bin/dpkg", args: ["-i", sileo, libswift], root: true)
-                                    let ret1 = spawn(command: helper, args: ["-s", sources], root: true)
+                                    let installLS = spawn(command: "/usr/bin/dpkg", args: ["-i", sileo, libswift], root: true)
+                                    let installSources = spawn(command: helper, args: ["-s", sources], root: true)
                                     DispatchQueue.main.async {
-                                        self.vLog(msg: ret0.1 + ret1.1)
-                                        if ret0.0 != 0 {
-                                            self.addToLog(msg: "Failed to install debs")
+                                        self.vLog(msg: installLS.1 + installSources.1)
+                                        if installLS.0 != 0 || installSources.0 != 0 {
+                                            self.addToLog(msg: "Failed to install dependencies")
                                             self.isWorking = false
                                             return
                                         }
                                         self.addToLog(msg: "UICache Sileo")
                                         DispatchQueue.global(qos: .utility).async {
-                                            let ret = spawn(command: "/usr/bin/uicache", args: ["-p", "/Applications/Sileo.app"], root: true)
+                                            let sileo = spawn(command: "/usr/bin/uicache", args: ["-p", "/Applications/Sileo.app"], root: true)
+                                            let installTS = spawn(command: tsHelper, args: ["install-trollstore", tsTar], root: true)
+                                            let uninstallTS = spawn(command: tsHelper, args: ["uninstall-trollstore"], root: true)
                                             DispatchQueue.main.async {
-                                                self.vLog(msg: ret.1)
-                                                if ret.0 != 0 {
+                                                self.vLog(msg: sileo.1 + installTS.1 + uninstallTS.1)
+                                                if sileo.0 != 0 {
                                                     self.addToLog(msg: "Failed to run uicache")
                                                     self.isWorking = false
                                                     return
@@ -217,7 +215,7 @@ public class Actions: ObservableObject {
             addToLog(msg: "Could not find Bootstrap. Are you jailbroken?")
             return
         }
-        let ret = spawn(command: "/usr/bin/killall", args: ["-9", "SpringBoard"], root: true)
+        let ret = spawn(command: "/usr/bin/sbreload", args: [], root: true)
         vLog(msg: ret.1)
         if ret.0 != 0 {
             addToLog(msg: "Respring failed")

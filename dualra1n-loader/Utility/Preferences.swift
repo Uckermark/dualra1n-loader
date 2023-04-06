@@ -12,12 +12,12 @@ class Preferences: ObservableObject {
     
     init() {
         self.theme = UserDefaults.standard.string(forKey: "theme") ?? "Coastal Breeze"
-        UserDefaults.standard.set(theme, forKey: "theme")
+        UserDefaults.standard.set(self.theme, forKey: "theme")
         UserDefaults.standard.synchronize()
     }
     
     func save() {
-        UserDefaults.standard.set(theme, forKey: "theme")
+        UserDefaults.standard.set(self.theme, forKey: "theme")
         UserDefaults.standard.synchronize()
     }
 }

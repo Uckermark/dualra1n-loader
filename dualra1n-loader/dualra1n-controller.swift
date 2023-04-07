@@ -222,17 +222,29 @@ public class Actions: ObservableObject {
         }
     }
     
-    func enableLibhooker() {
+    func enableTweakInjection() {
         guard isJailbroken() else {
             addToLog(msg: "Could not find bootstrap. Are you jailbroken?")
             return
         }
-        let ret = spawn(command: "/etc/rc.d/libhooker", args: [], root: true)
-        if ret.0 != 0 {
-            addToLog(msg: "Failed to start libhooker")
-            vLog(msg: ret.1)
+        if FileManager().fileExists(atPath: "/etc/rc.d/libhooker") {
+            let ret = spawn(command: "/etc/rc.d/libhooker", args: [], root: true)
+            if ret.0 != 0 {
+                addToLog(msg: "Failed to start libhooker")
+                vLog(msg: ret.1)
+            } else {
+                addToLog(msg: "Started libhooker")
+            }
+        } else if FileManager().fileExists(atPath: "/etc/rc.d/substitute-launcher") {
+            let ret = spawn(command: "/etc/rc.d/substitute-launcher", args: [], root: true)
+            if ret.0 != 0 {
+                addToLog(msg: "Failed to start substitute")
+                vLog(msg: ret.1)
+            } else {
+                addToLog(msg: "Started substitute")
+            }
         } else {
-            addToLog(msg: "Started libhooker")
+            addToLog(msg: "Could not find tweak injection library")
         }
     }
     
@@ -240,7 +252,7 @@ public class Actions: ObservableObject {
         runUiCache()
         remountRW()
         launchDaemons()
-        enableLibhooker()
+        enableTweakInjection()
         respringJB()
         addToLog(msg: "Done!")
     }
@@ -294,7 +306,7 @@ public class Actions: ObservableObject {
     }
     
     func isJailbroken() -> Bool {
-        if FileManager().fileExists(atPath: "/.procursus_strapped"){
+        if FileManager().fileExists(atPath: "/.procursus_strapped") || FileManager().fileExists(atPath: "/.installed_odyssey") || FileManager().fileExists(atPath: "/.installed_taurine"){
             return true
         } else {
             return false

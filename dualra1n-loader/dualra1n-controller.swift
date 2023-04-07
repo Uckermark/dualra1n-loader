@@ -265,11 +265,11 @@ public class Actions: ObservableObject {
     
     func runTools() {
         DispatchQueue.global(qos: .utility).async {
-            runUiCache()
-            remountRW()
-            launchDaemons()
-            enableTweakInjection()
-            respringJB()
+            self.runUiCache()
+            self.remountRW()
+            self.launchDaemons()
+            self.enableTweakInjection()
+            self.respringJB()
             DispatchQueue.main.async {
                 self.addToLog(msg: "Done!")
             }

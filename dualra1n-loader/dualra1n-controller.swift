@@ -148,10 +148,10 @@ public class Actions: ObservableObject {
     // For this to work it is required to run "snaputil -c orig-fs /mntX" (X = dualbooted rootdev)
     // before jailbreaking to create the snapshot which is restored in the below function
     func restoreRootFS() {
-        spawn(command: "/usr/bin/rm", args: ["/var/cache", "/var/lib"], root: true)
+        let clearVar = spawn(command: "/usr/bin/rm", args: ["-rf", "/var/cache", "/var/lib"], root: true)
         let revertSnapshot = spawn(command: "/usr/bin/snaputil", args: ["-r", "orig-fs", "/"], root: true)
         if revertSnapshot.0 != 0 {
-            vLog(msg: revertSnapshot.1)
+            vLog(msg: clearVar.1 + revertSnapshot.1)
             addToLog(msg: "Failed to restore RootFS")
         } else {
             addToLog(msg: "Restored RootFS")
@@ -264,12 +264,16 @@ public class Actions: ObservableObject {
     }
     
     func runTools() {
-        runUiCache()
-        remountRW()
-        launchDaemons()
-        enableTweakInjection()
-        respringJB()
-        addToLog(msg: "Done!")
+        DispatchQueue.global(qos: .utility).async {
+            runUiCache()
+            remountRW()
+            launchDaemons()
+            enableTweakInjection()
+            respringJB()
+            DispatchQueue.main.async {
+                self.addToLog(msg: "Done!")
+            }
+        }
     }
     
     func installSileo() {

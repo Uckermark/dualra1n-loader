@@ -80,12 +80,11 @@ public class Actions: ObservableObject {
                 self.addToLog(msg: "Extracting bootstrap")
                 DispatchQueue.global(qos: .utility).async { [self] in
                     let mountRoot = spawn(command: "/sbin/mount", args: ["-uw", "/"], root: true)
-                    //let mountPreboot = spawn(command: "/sbin/mount", args: ["-uw", "/private/preboot"], root: true)
                     let bootstrap = spawn(command: helper, args: ["-i", bootstrapURL.absoluteString.replacingOccurrences(of: "file://", with: "")], root: true)
                     spawn(command: "/usr/bin/chmod", args: ["4755", "/usr/bin/sudo"], root: true)
                     spawn(command: "/usr/bin/chown", args: ["root:wheel", "/usr/bin/sudo"], root: true)
                     DispatchQueue.main.async {
-                        self.vLog(msg: mountRoot.1 /*+ mountPreboot.1*/ + bootstrap.1)
+                        self.vLog(msg: mountRoot.1 + bootstrap.1)
                         if bootstrap.0 != 0 {
                             self.addToLog(msg: "Failed to extract bootstrap")
                             self.isWorking = false
@@ -94,6 +93,7 @@ public class Actions: ObservableObject {
                         self.addToLog(msg: "Preparing bootstrap")
                         DispatchQueue.global(qos: .utility).async {
                             let prepareBootstrap = spawn(command: "/usr/bin/sh", args: ["/prep_bootstrap.sh"], root: true)
+                            let firmware = spawn(command: "/usr/libexec/firmware", args: [], root: true)
                             DispatchQueue.main.async {
                                 self.vLog(msg: prepareBootstrap.1)
                                 if prepareBootstrap.0 != 0 {
@@ -140,6 +140,17 @@ public class Actions: ObservableObject {
         }
     }
     
+    func restoreRootFS() {
+        let ret = spawn(command: "/usr/bin/snaputil", args: ["-r", "orig-fs", "/"], root: true)
+        if ret.0 != 0 {
+            vLog(msg: ret.1)
+            addToLog(msg: "Failed to restore RootFS")
+        } else {
+            addToLog(msg: "Restored RootFS")
+            addToLog(msg: "REBOOT REQUIRED!")
+        }
+    }
+    
     func deleteBootstrap() {
         let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         guard let bootstrap = JBDevice().getBootstrap().1 else {
@@ -167,7 +178,7 @@ public class Actions: ObservableObject {
             self.addToLog(msg: "Could not access /Applications")
             return
         }
-        let excludeApps = ["Sidecar.app", "Xcode Previews.app"]
+        let excludeApps = ["Sidecar.app", "Xcode Previews.app", "Feedback Assistant iOS.app"]
         for app in apps ?? [] {
             if app.hasSuffix(".app") && !excludeApps.contains(app) {
                 let ret = spawn(command: "/usr/bin/uicache", args: ["-p", "/Applications/\(app)"], root: true)
@@ -183,13 +194,12 @@ public class Actions: ObservableObject {
     }
 
     func remountRW() {
-        let ret0 = spawn(command: "/sbin/mount", args: ["-uw", "/"], root: true)
-        let ret1 = spawn(command: "/sbin/mount", args: ["-uw", "/private/preboot"], root: true)
-        vLog(msg: ret0.1 + ret1.1)
-        if ret0.0 == 0 || ret1.0 == 0 {
-            addToLog(msg: "Remounted R/W")
-        } else {
+        let mountRoot = spawn(command: "/sbin/mount", args: ["-uw", "/"], root: true)
+        vLog(msg: mountRoot.1)
+        if mountRoot.0 != 0 {
             addToLog(msg: "Failed to remount R/W")
+        } else {
+            addToLog(msg: "Remounted R/W")
         }
     }
     

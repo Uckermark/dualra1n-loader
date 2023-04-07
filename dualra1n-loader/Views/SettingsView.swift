@@ -27,9 +27,9 @@ struct SettingsView: View {
                 NavigationLink(destination: LogView(action: action).navigationBarTitle("Credits", displayMode: .inline)) {
                     Text("Credits (Coming soon™)")
                 }
-                .navigationBarTitle("Settings", displayMode: .inline)
                 .disabled(true)
             }
+            .navigationBarTitle("Settings", displayMode: .inline)
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }
@@ -58,6 +58,7 @@ struct ToolsView: View {
             Button("Respring", action: action.respringJB)
             Button("Restore Sileo", action: action.installSileo)
             Button("Add sources", action: action.addSource)
+            Button("Restore RootFS (experimental)", action: action.restoreRootFS)
         }
     }
 }

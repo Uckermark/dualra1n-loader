@@ -57,12 +57,6 @@ public class Actions: ObservableObject {
             return
         }
         
-        guard let libswift = Bundle.main.path(forResource: "libswift", ofType: "deb") else {
-            addToLog(msg: " Could not find libswift")
-            isWorking = false
-            return
-        }
-        
         guard let sources = Bundle.main.path(forResource: "dualra1n", ofType: "sources") else {
             addToLog(msg: " Could not find sources")
             isWorking = false
@@ -108,7 +102,7 @@ public class Actions: ObservableObject {
                                 }
                                 self.addToLog(msg: "Installing Sileo")
                                 DispatchQueue.global(qos: .utility).async {
-                                    let installLS = spawn(command: "/usr/bin/dpkg", args: ["-i", sileo, libswift], root: true)
+                                    let installLS = spawn(command: "/usr/bin/dpkg", args: ["-i", sileo], root: true)
                                     let installSources = spawn(command: helper, args: ["-s", sources], root: true)
                                     DispatchQueue.main.async {
                                         self.vLog(msg: installLS.1 + installSources.1)
@@ -121,9 +115,12 @@ public class Actions: ObservableObject {
                                         DispatchQueue.global(qos: .utility).async {
                                             let sileo = spawn(command: "/usr/bin/uicache", args: ["-p", "/Applications/Sileo.app"], root: true)
                                             let installTS = spawn(command: tsHelper, args: ["install-trollstore", tsTar], root: true)
-                                            let uninstallTS = spawn(command: tsHelper, args: ["uninstall-trollstore"], root: true)
+                                            if JBDevice().iosVersion < 14.0 {
+                                                self.addToLog(msg: "Installing TrollStore")
+                                                spawn(command: tsHelper, args: ["uninstall-trollstore"], root: true)
+                                            }
                                             DispatchQueue.main.async {
-                                                self.vLog(msg: sileo.1 + installTS.1 + uninstallTS.1)
+                                                self.vLog(msg: sileo.1 + installTS.1)
                                                 if sileo.0 != 0 {
                                                     self.addToLog(msg: "Failed to run uicache")
                                                     self.isWorking = false

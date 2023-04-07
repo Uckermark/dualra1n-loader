@@ -74,7 +74,12 @@ public class Actions: ObservableObject {
         let bootstrapURL = documentsURL.appendingPathComponent(file)
         DispatchQueue.global(qos: .utility).async {
             if(!FileManager().fileExists(atPath: bootstrapURL.absoluteString.replacingOccurrences(of: "file://", with: ""))) {
-                self.downloadFile(url: url, file: file)
+                guard self.downloadFile(url: url, file: file) == 0 else {
+                    DispatchQueue.main.async {
+                        self.addToLog(msg: "Failed to download bootstrap")
+                    }
+                    return
+                }
             }
             DispatchQueue.main.async {
                 self.addToLog(msg: "Extracting bootstrap")
@@ -140,10 +145,13 @@ public class Actions: ObservableObject {
         }
     }
     
+    // For this to work it is required to run "snaputil -c orig-fs /mntX" (X = dualbooted rootdev)
+    // before jailbreaking to create the snapshot which is restored in the below function
     func restoreRootFS() {
-        let ret = spawn(command: "/usr/bin/snaputil", args: ["-r", "orig-fs", "/"], root: true)
-        if ret.0 != 0 {
-            vLog(msg: ret.1)
+        spawn(command: "/usr/bin/rm", args: ["/var/cache", "/var/lib"], root: true)
+        let revertSnapshot = spawn(command: "/usr/bin/snaputil", args: ["-r", "orig-fs", "/"], root: true)
+        if revertSnapshot.0 != 0 {
+            vLog(msg: revertSnapshot.1)
             addToLog(msg: "Failed to restore RootFS")
         } else {
             addToLog(msg: "Restored RootFS")
@@ -320,8 +328,9 @@ public class Actions: ObservableObject {
         }
     }
     
-    func downloadFile(url: URL, file: String) -> Void {
+    func downloadFile(url: URL, file: String) -> Int {
         addToLog(msg: "Downloading \(file)")
+        var result = -1
         let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         let fileURL = documentsURL.appendingPathComponent(file)
         vLog(msg: "Downloading from \(url.absoluteString) to \(fileURL.absoluteString)")
@@ -332,16 +341,20 @@ public class Actions: ObservableObject {
             if let tempLocalUrl = tempLocalUrl, error == nil {
                 do {
                     try FileManager.default.copyItem(at: tempLocalUrl, to: fileURL)
-                    self.addToLog(msg: "Downloaded \(file)")
+                    self.vLog(msg: "Downloaded \(file)")
+                    result = 0
                     semaphore.signal()
                 } catch (let writeError) {
                     self.addToLog(msg: "Could not copy file to disk: \(writeError)")
+                    result = 2
                 }
             } else {
                 self.addToLog(msg: "Could not download file: \(error?.localizedDescription ?? "Unknown error")")
+                result = 1
             }
         }
         task.resume()
         semaphore.wait()
+        return result
     }
 }

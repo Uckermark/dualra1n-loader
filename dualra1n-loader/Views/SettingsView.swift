@@ -21,7 +21,7 @@ struct SettingsView: View {
                 NavigationLink(destination: ToolsView(action: action).navigationBarTitle("Tools", displayMode: .inline)) {
                     Text("Tools")
                 }
-                NavigationLink(destination: DesignSettingsView(action: action).navigationBarTitle("Design", displayMode: .inline)) {
+                NavigationLink(destination: DesignSettingsView(prefs: action.prefs).navigationBarTitle("Design", displayMode: .inline)) {
                     Text("Design")
                 }
                 NavigationLink(destination: LogView(action: action).navigationBarTitle("Credits", displayMode: .inline)) {
@@ -42,6 +42,7 @@ struct JailbreakSettingsView: View {
         List {
             Toggle("Enable Verbose", isOn: $action.verbose)
             Button("Delete cached bootstrap", action: action.deleteBootstrap)
+            Button("Restore RootFS (experimental)", action: action.restoreRootFS)
         }
     }
 }
@@ -58,25 +59,24 @@ struct ToolsView: View {
             Button("Respring", action: action.respringJB)
             Button("Restore Sileo", action: action.installSileo)
             Button("Add sources", action: action.addSource)
-            Button("Restore RootFS (experimental)", action: action.restoreRootFS)
         }
     }
 }
 
 struct DesignSettingsView: View {
-    @ObservedObject var action: Actions
+    @ObservedObject var prefs: Preferences
     let themes = ["Coastal Breeze", "Sunset Vibes"]
     
     var body: some View {
         List {
             Text("Select theme")
-            Picker("", selection: $action.prefs.theme) {
+            Picker("", selection: $prefs.theme) {
                 ForEach(themes, id: \.self) {
                     Text($0)
                 }
             }
             .onDisappear() {
-                action.prefs.save()
+                prefs.save()
             }
             .pickerStyle(.wheel)
         }

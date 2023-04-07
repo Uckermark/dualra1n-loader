@@ -236,11 +236,29 @@ public class Actions: ObservableObject {
         }
     }
     
+    func enableSubstitute() {
+        guard isJailbroken() else {
+            addToLog(msg: "Could not find bootstrap. Are you jailbroken?")
+            return
+        }
+        let ret = spawn(command: "/etc/rc.d/substitute-launcher", args: [], root: true)
+        if ret.0 != 0 {
+            addToLog(msg: "Failed to start substitute")
+            vLog(msg: ret.1)
+        } else {
+            addToLog(msg: "Started substitute")
+        }
+    }
+    
     func runTools() {
         runUiCache()
         remountRW()
         launchDaemons()
-        enableLibhooker()
+        if FileManager().fileExists(atPath: "/.procursus_strapped") {
+            enableSubstitute()
+        } else if FileManager().fileExists(atPath: "/.installed_odyssey") || FileManager().fileExists(atPath: "/.installed_taurine") {
+            enableLibhooker()
+        }
         respringJB()
         addToLog(msg: "Done!")
     }
@@ -294,7 +312,7 @@ public class Actions: ObservableObject {
     }
     
     func isJailbroken() -> Bool {
-        if FileManager().fileExists(atPath: "/.procursus_strapped"){
+        if FileManager().fileExists(atPath: "/.procursus_strapped") || FileManager().fileExists(atPath: "/.installed_odyssey") || FileManager().fileExists(atPath: "/.installed_taurine"){
             return true
         } else {
             return false

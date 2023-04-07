@@ -55,6 +55,7 @@ struct ToolsView: View {
             Button("Remount R/W", action: action.remountRW)
             Button("Launch Daemons", action: action.launchDaemons)
             Button("Enable Libhooker", action: action.enableLibhooker)
+            Button("Enable Substitute", action: action.enableSubstitute)
             Button("Respring", action: action.respringJB)
             Button("Restore Sileo", action: action.installSileo)
             Button("Add sources", action: action.addSource)

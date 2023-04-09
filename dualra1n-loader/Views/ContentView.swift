@@ -13,6 +13,8 @@ struct ContentView: View {
     @ObservedObject var logger: Logger = Logger.shared
     @ObservedObject var installer: Installer = Installer()
     var tools: Tools = Tools()
+    private let gitCommit = Bundle.main.infoDictionary?["REVISION"] as? String ?? "unknown"
+    private let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "unknown"
     
     
     var body: some View {
@@ -50,7 +52,12 @@ struct ContentView: View {
                 Text(logger.statusText)
                     .foregroundColor(.white)
                 Spacer()
-                Divider()
+                HStack {
+                    Spacer()
+                    Text("v\(version) (\(gitCommit))")
+                        .font(.system(size: 13.0))
+                        .padding()
+                }
             }
         }
     }

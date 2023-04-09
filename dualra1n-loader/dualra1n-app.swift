@@ -23,7 +23,7 @@ struct dualra1nApp {
 struct Not_a_bypass: App {
     var body: some Scene {
         WindowGroup {
-            ContentView(action: Actions())
+            ContentView()
         }
     }
 }

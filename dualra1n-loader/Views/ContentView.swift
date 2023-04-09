@@ -8,12 +8,16 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject var action: Actions
     @State var settings = false
     @State var log = false
+    @ObservedObject var logger: Logger = Logger.shared
+    @ObservedObject var installer: Installer = Installer()
+    var tools: Tools = Tools()
+    
+    
     var body: some View {
         ZStack {
-            BackgroundView(action: action)
+            BackgroundView()
             
             VStack {
                 HStack {
@@ -22,7 +26,7 @@ struct ContentView: View {
                     }
                     .modifier(transparentButton(padding: 8))
                         .sheet(isPresented: $log) {
-                            LogView(action: action)
+                            LogView()
                         }
                             .padding()
                     Spacer()
@@ -31,19 +35,19 @@ struct ContentView: View {
                     }
                     .modifier(transparentButton(padding: 8))
                         .sheet(isPresented: $settings) {
-                            SettingsView(action: action)
+                            SettingsView()
                         }
                             .padding()
                 }
                 Spacer()
                 if !FileManager().fileExists(atPath: "/.procursus_strapped") {
-                    Button("Jailbreak", action: action.Install)
+                    Button("Jailbreak", action: installer.bootstrap)
                         .modifier(transparentButton(padding: 15))
                 } else {
-                    Button("Re-jailbreak", action: action.runTools)
+                    Button("Re-jailbreak", action: tools.reJailbreak)
                         .modifier(transparentButton(padding: 15))
                 }
-                Text(action.statusText)
+                Text(logger.statusText)
                     .foregroundColor(.white)
                 Spacer()
                 Divider()

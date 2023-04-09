@@ -18,7 +18,7 @@ public class Actions: ObservableObject {
     @Published var prefs: Preferences
 
     init() {
-        prefs = Preferences()
+        prefs = Preferences.sharedPreferences
         isWorking = false
         log = ""
         statusText = " "
@@ -33,38 +33,23 @@ public class Actions: ObservableObject {
         
         isWorking = true
         
-        guard let helper = Bundle.main.path(forAuxiliaryExecutable: "dualra1n-helper") else {
-            addToLog(msg: "Could not find helper")
+        guard let helper = Bundle.main.path(forAuxiliaryExecutable: "dualra1n-helper"),
+              let tsHelper = Bundle.main.path(forAuxiliaryExecutable: "trollstore13helper") else {
+            addToLog(msg: "Could not find binaries")
             isWorking = false
             return
         }
         
-        guard let tsHelper = Bundle.main.path(forAuxiliaryExecutable: "trollstore13helper") else {
-            addToLog(msg: "Could not find trollstorehelper")
+        guard let tsTar = Bundle.main.path(forResource: "TrollStore", ofType: "tar"),
+              let sileo = Bundle.main.path(forResource: "sileo", ofType: "deb"),
+              let sources = Bundle.main.path(forResource: "dualra1n", ofType: "sources") else {
+            addToLog(msg: "Could not find ressources")
             isWorking = false
             return
         }
         
-        guard let tsTar = Bundle.main.path(forResource: "TrollStore", ofType: "tar") else {
-            addToLog(msg: "Could not find trollstore tar")
-            isWorking = false
-            return
-        }
-        
-        guard let sileo = Bundle.main.path(forResource: "sileo", ofType: "deb") else {
-            addToLog(msg: "Could not find Sileo deb")
-            isWorking = false
-            return
-        }
-        
-        guard let sources = Bundle.main.path(forResource: "dualra1n", ofType: "sources") else {
-            addToLog(msg: " Could not find sources")
-            isWorking = false
-            return
-        }
-        
-        let bootstrap = JBDevice().getBootstrap()
-        guard let url = bootstrap.0, let file = bootstrap.1 else {
+        let device = JBDevice()
+        guard let url = device.getBootstrap().0, let file = device.getBootstrap().1 else {
             addToLog(msg: "Could not get bootstrap for your device")
             isWorking = false
             return
@@ -73,7 +58,7 @@ public class Actions: ObservableObject {
         let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         let bootstrapURL = documentsURL.appendingPathComponent(file)
         DispatchQueue.global(qos: .utility).async {
-            if(!FileManager().fileExists(atPath: bootstrapURL.absoluteString.replacingOccurrences(of: "file://", with: ""))) {
+            if(!FileManager.default.fileExists(atPath: bootstrapURL.absoluteString.replacingOccurrences(of: "file://", with: ""))) {
                 guard self.downloadFile(url: url, file: file) == 0 else {
                     DispatchQueue.main.async {
                         self.addToLog(msg: "Failed to download bootstrap")
@@ -119,13 +104,13 @@ public class Actions: ObservableObject {
                                         self.addToLog(msg: "UICache Sileo")
                                         DispatchQueue.global(qos: .utility).async {
                                             let sileo = spawn(command: "/usr/bin/uicache", args: ["-p", "/Applications/Sileo.app"], root: true)
-                                            let installTS = spawn(command: tsHelper, args: ["install-trollstore", tsTar], root: true)
-                                            if JBDevice().iosVersion < 14.0 {
-                                                self.addToLog(msg: "Installing TrollStore")
-                                                spawn(command: tsHelper, args: ["uninstall-trollstore"], root: true)
+                                            var uicache = ""
+                                            if device.isIpad && device.iosVersion < 14.0 {
+                                                uicache.append(spawn(command: tsHelper, args: ["install-trollstore", tsTar], root: true).1)
+                                                uicache.append(spawn(command: tsHelper, args: ["uninstall-trollstore"], root: true).1)
                                             }
                                             DispatchQueue.main.async {
-                                                self.vLog(msg: sileo.1 + installTS.1)
+                                                self.vLog(msg: sileo.1 + uicache)
                                                 if sileo.0 != 0 {
                                                     self.addToLog(msg: "Failed to run uicache")
                                                     self.isWorking = false
@@ -168,7 +153,7 @@ public class Actions: ObservableObject {
         let bootstrapURL = documentsURL.appendingPathComponent(bootstrap)
         vLog(msg: "Deleting \(bootstrapURL.absoluteString)")
         do {
-            try FileManager().removeItem(at: bootstrapURL)
+            try FileManager.default.removeItem(at: bootstrapURL)
         } catch {
             addToLog(msg: error.localizedDescription)
         }
@@ -189,11 +174,11 @@ public class Actions: ObservableObject {
         let excludeApps = ["Sidecar.app", "Xcode Previews.app", "Feedback Assistant iOS.app"]
         for app in apps ?? [] {
             if app.hasSuffix(".app") && !excludeApps.contains(app) {
-                let ret = spawn(command: "/usr/bin/uicache", args: ["-p", "/Applications/\(app)"], root: true)
-                self.vLog(msg: ret.1)
+                let uicache = spawn(command: "/usr/bin/uicache", args: ["-p", "/Applications/\(app)"], root: true)
+                self.vLog(msg: uicache.1)
                 self.addToLog(msg: "App \(app) refreshed")
-                if ret.0 != 0 {
-                    self.addToLog(msg: "Failed to rebuild IconCache (\(ret))")
+                if uicache.0 != 0 {
+                    self.addToLog(msg: "Failed to rebuild IconCache (\(uicache))")
                     return
                 }
             }
@@ -216,11 +201,11 @@ public class Actions: ObservableObject {
             addToLog(msg: "Could not find Bootstrap. Are you jailbroken?")
             return
         }
-        let ret = spawn(command: "/bin/launchctl", args: ["bootstrap", "system", "/Library/LaunchDaemons"], root: true)
-        vLog(msg: ret.1)
-        if ret.0 == 0 {
+        let launchDaemons = spawn(command: "/bin/launchctl", args: ["bootstrap", "system", "/Library/LaunchDaemons"], root: true)
+        vLog(msg: launchDaemons.1)
+        if launchDaemons.0 == 0 {
             addToLog(msg: "Launched daemons")
-        } else if ret.0 == 34048 {
+        } else if launchDaemons.0 == 34048 {
             addToLog(msg: "Daemons already launched")
         }
     }
@@ -230,9 +215,9 @@ public class Actions: ObservableObject {
             addToLog(msg: "Could not find Bootstrap. Are you jailbroken?")
             return
         }
-        let ret = spawn(command: "/usr/bin/sbreload", args: [], root: true)
-        vLog(msg: ret.1)
-        if ret.0 != 0 {
+        let respring = spawn(command: "/usr/bin/sbreload", args: [], root: true)
+        vLog(msg: respring.1)
+        if respring.0 != 0 {
             addToLog(msg: "Respring failed")
         }
     }
@@ -242,19 +227,19 @@ public class Actions: ObservableObject {
             addToLog(msg: "Could not find bootstrap. Are you jailbroken?")
             return
         }
-        if FileManager().fileExists(atPath: "/etc/rc.d/libhooker") {
-            let ret = spawn(command: "/etc/rc.d/libhooker", args: [], root: true)
-            if ret.0 != 0 {
+        if FileManager.default.fileExists(atPath: "/etc/rc.d/libhooker") {
+            let libhooker = spawn(command: "/etc/rc.d/libhooker", args: [], root: true)
+            if libhooker.0 != 0 {
                 addToLog(msg: "Failed to start libhooker")
-                vLog(msg: ret.1)
+                vLog(msg: libhooker.1)
             } else {
                 addToLog(msg: "Started libhooker")
             }
-        } else if FileManager().fileExists(atPath: "/etc/rc.d/substitute-launcher") {
-            let ret = spawn(command: "/etc/rc.d/substitute-launcher", args: [], root: true)
-            if ret.0 != 0 {
+        } else if FileManager.default.fileExists(atPath: "/etc/rc.d/substitute-launcher") {
+            let substitute = spawn(command: "/etc/rc.d/substitute-launcher", args: [], root: true)
+            if substitute.0 != 0 {
                 addToLog(msg: "Failed to start substitute")
-                vLog(msg: ret.1)
+                vLog(msg: substitute.1)
             } else {
                 addToLog(msg: "Started substitute")
             }
@@ -296,21 +281,19 @@ public class Actions: ObservableObject {
     }
     
     func addSource() {
-        guard let sources = Bundle.main.path(forResource: "dualra1n", ofType: "sources") else {
-            addToLog(msg: "Could not find sources")
+        guard let sources = Bundle.main.path(forResource: "dualra1n", ofType: "sources"),
+              let helper = Bundle.main.path(forAuxiliaryExecutable: "dualra1n-helper") else {
+            addToLog(msg: "Could not find ressources")
             return
         }
-        guard let helper = Bundle.main.path(forAuxiliaryExecutable: "dualra1n-helper") else {
-            addToLog(msg: "Could not find helper")
-            return
-        }
-        let ret = spawn(command: helper, args: ["-s", sources], root: true)
-        if ret.0 == 0 {
+
+        let installSources = spawn(command: helper, args: ["-s", sources], root: true)
+        if installSources.0 == 0 {
             addToLog(msg: "Added sources")
         } else {
             addToLog(msg: "Failed to add sources")
         }
-        vLog(msg: ret.1)
+        vLog(msg: installSources.1)
     }
     
     func addToLog(msg: String) {
@@ -325,7 +308,8 @@ public class Actions: ObservableObject {
     }
     
     func isJailbroken() -> Bool {
-        if FileManager().fileExists(atPath: "/.procursus_strapped") || FileManager().fileExists(atPath: "/.installed_odyssey") || FileManager().fileExists(atPath: "/.installed_taurine"){
+        let fm = FileManager.default
+        if fm.fileExists(atPath: "/.procursus_strapped") || fm.fileExists(atPath: "/.installed_odyssey") || fm.fileExists(atPath: "/.installed_taurine"){
             return true
         } else {
             return false

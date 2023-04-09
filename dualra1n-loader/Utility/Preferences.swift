@@ -10,7 +10,9 @@ import Foundation
 class Preferences: ObservableObject {
     @Published var theme: String
     
-    init() {
+    static let sharedPreferences = Preferences()
+    
+    private init() {
         self.theme = UserDefaults.standard.string(forKey: "theme") ?? "Coastal Breeze"
         UserDefaults.standard.set(self.theme, forKey: "theme")
         UserDefaults.standard.synchronize()

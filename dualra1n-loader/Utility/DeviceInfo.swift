@@ -6,14 +6,17 @@
 //
 
 import Foundation
+import UIKit
 
 public class JBDevice {
     let iosVersion: Double
+    let isIpad: Bool
     let isJailbroken: Bool
     let isSupported: Bool
     
     init() {
         self.iosVersion = Double(ProcessInfo.processInfo.operatingSystemVersion.majorVersion) + Double(ProcessInfo.processInfo.operatingSystemVersion.minorVersion) * 0.1
+        self.isIpad = UIDevice.current.userInterfaceIdiom == .pad
         self.isJailbroken = FileManager().fileExists(atPath: "/.procursus_strapped")
         self.isSupported = (13.0 <= iosVersion && iosVersion <= 16.0)
     }

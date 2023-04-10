@@ -37,4 +37,21 @@ public class JBDevice {
         }
         return (nil, nil)
     }
+    
+    func getInfoString() -> String {
+        let version: String = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "unknown"
+        let gitCommit: String = Bundle.main.infoDictionary?["REVISION"] as? String ?? "unknown"
+        var deviceInfo: String = "loader: v\(version) (\(gitCommit))\n"
+        var model: String
+        if isIpad {
+            model = "iPad"
+        } else {
+            model = "iPhone"
+        }
+        deviceInfo.append("device: \(model) \(iosVersion)")
+        if isJailbroken {
+            deviceInfo.append(" jailbroken")
+        }
+        return deviceInfo
+    }
 }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LogView: View {
-    @ObservedObject var action: Actions
+    @ObservedObject var logger: Logger = Logger.shared
     var body: some View {
         ZStack {
             VStack {
@@ -17,7 +17,7 @@ struct LogView: View {
                     .font(.headline)
                 ScrollView {
                     HStack {
-                        Text(action.log)
+                        Text(logger.log)
                             .multilineTextAlignment(.leading)
                         Spacer()
                     }
@@ -25,7 +25,7 @@ struct LogView: View {
             }
             .padding()
             Text("Nothing here yet...")
-                .opacity(action.log.count > 0 ? 0 : 1)
+                .opacity(logger.log.count > 0 ? 0 : 1)
         }
         .background(Color(.systemGroupedBackground))
         .edgesIgnoringSafeArea(.all)

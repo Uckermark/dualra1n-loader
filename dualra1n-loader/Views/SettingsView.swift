@@ -8,23 +8,20 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @ObservedObject var action: Actions
-    private let gitCommit = Bundle.main.infoDictionary?["REVISION"] as? String ?? "unknown"
-    private let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "unknown"
     
     var body: some View {
         NavigationView {
             List {
-                NavigationLink(destination: JailbreakSettingsView(action: action).navigationBarTitle("Jailbreak", displayMode: .inline)) {
+                NavigationLink(destination: JailbreakSettingsView().navigationBarTitle("Jailbreak", displayMode: .inline)) {
                     Text("Jailbreak")
                 }
-                NavigationLink(destination: ToolsView(action: action).navigationBarTitle("Tools", displayMode: .inline)) {
+                NavigationLink(destination: ToolsView().navigationBarTitle("Tools", displayMode: .inline)) {
                     Text("Tools")
                 }
-                NavigationLink(destination: DesignSettingsView(prefs: action.prefs).navigationBarTitle("Design", displayMode: .inline)) {
+                NavigationLink(destination: DesignSettingsView().navigationBarTitle("Design", displayMode: .inline)) {
                     Text("Design")
                 }
-                NavigationLink(destination: LogView(action: action).navigationBarTitle("Credits", displayMode: .inline)) {
+                NavigationLink(destination: LogView().navigationBarTitle("Credits", displayMode: .inline)) {
                     Text("Credits (Coming soon™)")
                 }
                 .disabled(true)
@@ -36,35 +33,36 @@ struct SettingsView: View {
 }
 
 struct JailbreakSettingsView: View {
-    @ObservedObject var action: Actions
+    @ObservedObject var logger: Logger = Logger.shared
+    var tools: Tools = Tools()
     
     var body: some View {
         List {
-            Toggle("Enable Verbose", isOn: $action.verbose)
-            Button("Delete cached bootstrap", action: action.deleteBootstrap)
-            Button("Restore RootFS (experimental)", action: action.restoreRootFS)
+            Toggle("Enable Verbose", isOn: $logger.verbose)
+            Button("Delete cached bootstrap", action: tools.deleteBootstrap)
+            Button("Restore RootFS (experimental)", action: tools.restoreRootFS)
         }
     }
 }
 
 struct ToolsView: View {
-    @ObservedObject var action: Actions
+    var tools: Tools = Tools()
     
     var body: some View {
         List {
-            Button("Rebuild Icon Cache", action: action.runUiCache)
-            Button("Remount R/W", action: action.remountRW)
-            Button("Launch Daemons", action: action.launchDaemons)
-            Button("Enable Tweaks", action: action.enableTweakInjection)
-            Button("Respring", action: action.respringJB)
-            Button("Restore Sileo", action: action.installSileo)
-            Button("Add sources", action: action.addSource)
+            Button("Rebuild Icon Cache", action: tools.runUiCache)
+            Button("Remount R/W", action: tools.remountRW)
+            Button("Launch Daemons", action: tools.launchDaemons)
+            Button("Enable Tweaks", action: tools.enableTweakInjection)
+            Button("Respring", action: tools.respringJB)
+            Button("Restore Sileo", action: tools.installSileo)
+            Button("Add sources", action: tools.addSource)
         }
     }
 }
 
 struct DesignSettingsView: View {
-    @ObservedObject var prefs: Preferences
+    @ObservedObject var prefs: Preferences = Preferences.sharedPreferences
     let themes = ["Coastal Breeze", "Sunset Vibes"]
     
     var body: some View {

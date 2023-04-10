@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 class Logger: ObservableObject {
     static let shared = Logger()
@@ -18,19 +19,29 @@ class Logger: ObservableObject {
         self.log = ""
         self.rawLog = ""
         self.statusText = " "
-        self.verbose = true
+        self.verbose = false
     }
     
     func addToLog(_ msg: String) {
         statusText = msg
         log = log + "\n[*] " + msg
-        rawLog = rawLog + "\n" + msg
+        addToRawLog(msg)
     }
     
     func vLog(_ msg: String) {
         if verbose {
             log = log + "\n" + msg
         }
+        addToRawLog(msg)
+    }
+    
+    func addToRawLog(_ msg: String) {
         rawLog = rawLog + "\n" + msg
+    }
+    
+    func copyLog() {
+        let pasteboard = UIPasteboard.general
+        pasteboard.string = rawLog
+        self.addToLog("Copied log to clipboard")
     }
 }

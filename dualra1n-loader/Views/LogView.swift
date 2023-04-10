@@ -12,9 +12,15 @@ struct LogView: View {
     var body: some View {
         ZStack {
             VStack {
-                Text("Log")
+                HStack {
+                    Text("Log")
+                        .padding()
+                        .font(.headline)
+                    Button(action: logger.copyLog) {
+                        Image(systemName: "square.and.arrow.up")
+                    }
                     .padding()
-                    .font(.headline)
+                }
                 ScrollView {
                     HStack {
                         Text(logger.log)

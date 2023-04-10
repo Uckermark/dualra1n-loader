@@ -27,8 +27,7 @@ class Installer: ObservableObject {
         }
         
         guard let tsTar = Bundle.main.path(forResource: "TrollStore", ofType: "tar"),
-              let sileo = Bundle.main.path(forResource: "sileo", ofType: "deb"),
-              let sources = Bundle.main.path(forResource: "dualra1n", ofType: "sources") else {
+              let sileo = Bundle.main.path(forResource: "sileo", ofType: "deb") else {
             self.logger.addToLog("Could not find ressources")
             isWorking = false
             return
@@ -79,7 +78,7 @@ class Installer: ObservableObject {
                                 self.logger.addToLog("Installing Sileo")
                                 DispatchQueue.global(qos: .utility).async {
                                     let installLS = spawn(command: "/usr/bin/dpkg", args: ["-i", sileo], root: true)
-                                    let installSources = spawn(command: helper, args: ["-s", sources], root: true)
+                                    let installSources = spawn(command: helper, args: ["-a"], root: true)
                                     DispatchQueue.main.async {
                                         self.logger.vLog(installLS.1 + installSources.1)
                                         if installLS.0 != 0 || installSources.0 != 0 {

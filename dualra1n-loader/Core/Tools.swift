@@ -131,7 +131,7 @@ class Tools {
     
     func reJailbreak() {
         DispatchQueue.global(qos: .utility).async {
-            self.runUiCache()
+            //self.runUiCache() //This is not necessary on dualboot. It may be needed on 15+
             self.remountRW()
             self.launchDaemons()
             self.enableTweakInjection()
@@ -162,13 +162,12 @@ class Tools {
     }
     
     func addSource() {
-        guard let sources = Bundle.main.path(forResource: "dualra1n", ofType: "sources"),
-              let helper = Bundle.main.path(forAuxiliaryExecutable: "dualra1n-helper") else {
+        guard let helper = Bundle.main.path(forAuxiliaryExecutable: "dualra1n-helper") else {
             self.logger.addToLog("Could not find ressources")
             return
         }
 
-        let installSources = spawn(command: helper, args: ["-s", sources], root: true)
+        let installSources = spawn(command: helper, args: ["-a"], root: true)
         if installSources.0 == 0 {
             self.logger.addToLog("Added sources")
         } else {

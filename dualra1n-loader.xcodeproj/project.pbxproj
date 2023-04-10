@@ -15,7 +15,6 @@
 		D717BF8C29E349BC00491D27 /* Installer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D717BF8B29E349BC00491D27 /* Installer.swift */; };
 		D717BF8E29E34ADB00491D27 /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = D717BF8D29E34ADB00491D27 /* Tools.swift */; };
 		D72D6B2129CC354A00F379AF /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72D6B2029CC354A00F379AF /* DeviceInfo.swift */; };
-		D74A7EC429DC0168002C2419 /* dualra1n.sources in Resources */ = {isa = PBXBuildFile; fileRef = D74A7EC329DC015C002C2419 /* dualra1n.sources */; };
 		D753421029C9C1080057A767 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D753420F29C9C1080057A767 /* SceneDelegate.swift */; };
 		D776D1B929C114D200A9C00F /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = D776D1B829C114D200A9C00F /* Preferences.swift */; };
 		D7808B6E29DF3B0600CF204E /* trollstore13helper in Resources */ = {isa = PBXBuildFile; fileRef = D7808B6D29DF3B0600CF204E /* trollstore13helper */; };
@@ -53,7 +52,6 @@
 		D717BF8B29E349BC00491D27 /* Installer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Installer.swift; sourceTree = "<group>"; };
 		D717BF8D29E34ADB00491D27 /* Tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tools.swift; sourceTree = "<group>"; };
 		D72D6B2029CC354A00F379AF /* DeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfo.swift; sourceTree = "<group>"; };
-		D74A7EC329DC015C002C2419 /* dualra1n.sources */ = {isa = PBXFileReference; lastKnownFileType = text; path = dualra1n.sources; sourceTree = "<group>"; };
 		D753420F29C9C1080057A767 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		D776D1B829C114D200A9C00F /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		D7808B6D29DF3B0600CF204E /* trollstore13helper */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = trollstore13helper; sourceTree = "<group>"; };
@@ -125,7 +123,6 @@
 			isa = PBXGroup;
 			children = (
 				D7872D3529BB6D04000749F0 /* sileo.deb */,
-				D74A7EC329DC015C002C2419 /* dualra1n.sources */,
 				D7808B6D29DF3B0600CF204E /* trollstore13helper */,
 				D7808B6F29DF3B4100CF204E /* TrollStore.tar */,
 			);
@@ -260,7 +257,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D74A7EC429DC0168002C2419 /* dualra1n.sources in Resources */,
 				D7872D3729BB71D1000749F0 /* sileo.deb in Resources */,
 				D7808B6E29DF3B0600CF204E /* trollstore13helper in Resources */,
 				D7808B7029DF3B4200CF204E /* TrollStore.tar in Resources */,

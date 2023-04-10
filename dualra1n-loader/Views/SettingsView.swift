@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct SettingsView: View {
-    private let gitCommit = Bundle.main.infoDictionary?["REVISION"] as? String ?? "unknown"
-    private let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "unknown"
     
     var body: some View {
         NavigationView {

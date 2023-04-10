@@ -11,6 +11,7 @@ import SwiftUI
 @main
 struct dualra1nApp {
     static func main() {
+        Logger.shared.vLog(JBDevice().getInfoString())
         if #available(iOS 14.0, *) {
             Not_a_bypass.main()
         } else {

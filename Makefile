@@ -1,4 +1,5 @@
 TARGET_CODESIGN = $(shell which ldid)
+TARGET_STRIP = $(shell which strip)
 
 DRTMP = $(TMPDIR)/dualra1n
 DR_STAGE_DIR = $(DRTMP)/stage
@@ -26,6 +27,8 @@ package:
 	@ls $(DR_HELPER_PATH)
 	@ls $(DR_STAGE_DIR)
 	@mv $(DR_HELPER_PATH) $(DR_STAGE_DIR)/Payload/dualra1n-loader.app/dualra1n-helper
+	@$(TARGET_STRIP) $(DR_STAGE_DIR)/Payload/dualra1n-loader.app/dualra1n-helper
+	@$(TARGET_STRIP) $(DR_STAGE_DIR)/Payload/dualra1n-loader.app/dualra1n-loader
 	@$(TARGET_CODESIGN) -Sentitlements.xml $(DR_STAGE_DIR)/Payload/dualra1n-loader.app/
 	@$(TARGET_CODESIGN) -Sentitlements.xml $(DR_STAGE_DIR)/Payload/dualra1n-loader.app/dualra1n-helper
 	

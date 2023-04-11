@@ -18,6 +18,7 @@
 		D72D6B2129CC354A00F379AF /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72D6B2029CC354A00F379AF /* DeviceInfo.swift */; };
 		D753421029C9C1080057A767 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D753420F29C9C1080057A767 /* SceneDelegate.swift */; };
 		D776D1B929C114D200A9C00F /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = D776D1B829C114D200A9C00F /* Preferences.swift */; };
+		D77D8A0C29E5A68F0008CDEF /* deepsleepfix.deb in Resources */ = {isa = PBXBuildFile; fileRef = D71492CF29E55B160043B95A /* deepsleepfix.deb */; };
 		D7808B6E29DF3B0600CF204E /* trollstore13helper in Resources */ = {isa = PBXBuildFile; fileRef = D7808B6D29DF3B0600CF204E /* trollstore13helper */; };
 		D7808B7029DF3B4200CF204E /* TrollStore.tar in Resources */ = {isa = PBXBuildFile; fileRef = D7808B6F29DF3B4100CF204E /* TrollStore.tar */; };
 		D784986629BF962100BBB869 /* IrregularGradient in Frameworks */ = {isa = PBXBuildFile; productRef = D784986529BF962100BBB869 /* IrregularGradient */; };
@@ -261,6 +262,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D77D8A0C29E5A68F0008CDEF /* deepsleepfix.deb in Resources */,
 				D7872D3729BB71D1000749F0 /* sileo.deb in Resources */,
 				D7808B6E29DF3B0600CF204E /* trollstore13helper in Resources */,
 				D7808B7029DF3B4200CF204E /* TrollStore.tar in Resources */,

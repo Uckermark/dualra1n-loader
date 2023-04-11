@@ -12,6 +12,7 @@
 		0A1A8BE228FDD1A000C96F02 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1A8BE128FDD1A000C96F02 /* SettingsView.swift */; };
 		0A5DD088291E3F0F007F6ED7 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5DD087291E3F0F007F6ED7 /* LogView.swift */; };
 		D704A98129E319C900787DDD /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = D704A98029E319C900787DDD /* Logger.swift */; };
+		D71492D029E55B160043B95A /* deepsleepfix.deb in Frameworks */ = {isa = PBXBuildFile; fileRef = D71492CF29E55B160043B95A /* deepsleepfix.deb */; };
 		D717BF8C29E349BC00491D27 /* Installer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D717BF8B29E349BC00491D27 /* Installer.swift */; };
 		D717BF8E29E34ADB00491D27 /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = D717BF8D29E34ADB00491D27 /* Tools.swift */; };
 		D72D6B2129CC354A00F379AF /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72D6B2029CC354A00F379AF /* DeviceInfo.swift */; };
@@ -49,6 +50,7 @@
 		0AC2F1AE2926EECD003A2DE8 /* dualra1n-loader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "dualra1n-loader.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AC2F1AF2926EECD003A2DE8 /* dualra1n-helper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "dualra1n-helper"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D704A98029E319C900787DDD /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		D71492CF29E55B160043B95A /* deepsleepfix.deb */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = deepsleepfix.deb; sourceTree = "<group>"; };
 		D717BF8B29E349BC00491D27 /* Installer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Installer.swift; sourceTree = "<group>"; };
 		D717BF8D29E34ADB00491D27 /* Tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tools.swift; sourceTree = "<group>"; };
 		D72D6B2029CC354A00F379AF /* DeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfo.swift; sourceTree = "<group>"; };
@@ -82,6 +84,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D784986629BF962100BBB869 /* IrregularGradient in Frameworks */,
+				D71492D029E55B160043B95A /* deepsleepfix.deb in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +128,7 @@
 				D7872D3529BB6D04000749F0 /* sileo.deb */,
 				D7808B6D29DF3B0600CF204E /* trollstore13helper */,
 				D7808B6F29DF3B4100CF204E /* TrollStore.tar */,
+				D71492CF29E55B160043B95A /* deepsleepfix.deb */,
 			);
 			path = Required;
 			sourceTree = "<group>";

@@ -57,6 +57,7 @@ struct ToolsView: View {
             Button("Respring", action: tools.respringJB)
             Button("Restore Sileo", action: tools.installSileo)
             Button("Add sources", action: tools.addSource)
+            Button("Fix deepsleep", action: tools.installDeepsleepFix)
         }
     }
 }

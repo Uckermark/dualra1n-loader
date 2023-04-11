@@ -152,9 +152,9 @@ class Tools {
             self.logger.addToLog("Could not find Sileo deb")
             return
         }
-        let ret = spawn(command: "/usr/bin/dpkg", args: ["-i", sileo], root: true)
-        self.logger.vLog(ret.1)
-        if(ret.0 == 0) {
+        let installSileo = spawn(command: "/usr/bin/dpkg", args: ["-i", sileo], root: true)
+        self.logger.vLog(installSileo.1)
+        if(installSileo.0 == 0) {
             self.logger.addToLog("Installed Sileo")
         } else {
             self.logger.addToLog("Failed to install Sileo")
@@ -174,6 +174,25 @@ class Tools {
             self.logger.addToLog("Failed to add sources")
         }
         self.logger.vLog(installSources.1)
+    }
+    
+    func installDeepsleepFix() {
+        guard let deepsleepfix = Bundle.main.path(forResource: "deepsleepfix", ofType: "deb") else {
+            self.logger.addToLog("Could not find ressources")
+            return
+        }
+        DispatchQueue.global(qos: .utility).async {
+            let fixDeepsleep = spawn(command: "/usr/bin/dpkg", args: ["-i", deepsleepfix], root: true)
+            DispatchQueue.main.async {
+                if fixDeepsleep.0 == 0 {
+                    self.logger.addToLog("Fixed deepsleep")
+                } else {
+                    self.logger.addToLog("Failed to fix deepsleep")
+                }
+                self.logger.vLog(fixDeepsleep.1)
+            }
+        }
+        
     }
     
     func isJailbroken() -> Bool {

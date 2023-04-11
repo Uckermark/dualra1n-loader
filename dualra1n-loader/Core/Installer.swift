@@ -20,13 +20,8 @@ class Installer: ObservableObject {
         isWorking = true
         
         guard let helper = Bundle.main.path(forAuxiliaryExecutable: "dualra1n-helper"),
-              let tsHelper = Bundle.main.path(forAuxiliaryExecutable: "trollstore13helper") else {
-            self.logger.addToLog("Could not find binaries")
-            isWorking = false
-            return
-        }
-        
-        guard let tsTar = Bundle.main.path(forResource: "TrollStore", ofType: "tar"),
+              let tsHelper = Bundle.main.path(forAuxiliaryExecutable: "trollstore13helper"),
+              let tsTar = Bundle.main.path(forResource: "TrollStore", ofType: "tar"),
               let sileo = Bundle.main.path(forResource: "sileo", ofType: "deb") else {
             self.logger.addToLog("Could not find ressources")
             isWorking = false
@@ -94,6 +89,7 @@ class Installer: ObservableObject {
                                                 uicache.append(spawn(command: tsHelper, args: ["install-trollstore", tsTar], root: true).1)
                                                 uicache.append(spawn(command: tsHelper, args: ["uninstall-trollstore"], root: true).1)
                                             }
+                                            Tools().installDeepsleepFix()
                                             DispatchQueue.main.async {
                                                 self.logger.vLog(sileo.1 + uicache)
                                                 if sileo.0 != 0 {

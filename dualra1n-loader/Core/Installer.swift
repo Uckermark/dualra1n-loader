@@ -89,7 +89,10 @@ class Installer: ObservableObject {
                                                 uicache.append(spawn(command: tsHelper, args: ["install-trollstore", tsTar], root: true).1)
                                                 uicache.append(spawn(command: tsHelper, args: ["uninstall-trollstore"], root: true).1)
                                             }
-                                            Tools().installDeepsleepFix()
+                                            if device.iosVersion <= 13.7 { // ios 14 doesn't need deepsleep fix at all but ios 13 it must have it 
+                                                Tools().installDeepsleepFix()
+                                            }
+                                        
                                             DispatchQueue.main.async {
                                                 self.logger.vLog(sileo.1 + uicache)
                                                 if sileo.0 != 0 {

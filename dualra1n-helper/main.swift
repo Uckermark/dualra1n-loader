@@ -30,9 +30,19 @@ struct Helper: ParsableCommand {
     func addSource() {
         let ironside = """
         Types: deb
-        URIs: https://apt.ironside.org.uk/
-        Suites: iphoneos-arm
-        Components: dualra1n
+        URIs: https://apt.modiverse.co.uk/
+        Suites: ./
+        Components:
+        
+        Types: deb
+        URIs: https://havoc.app/
+        Suites: ./
+        Components:
+
+        Types: deb
+        URIs: https://repo.chariz.com/
+        Suites: ./
+        Components:
         """
         do  {
             try ironside.write(to: URL(string: "file:///etc/apt/sources.list.d/dualra1n.sources")!,

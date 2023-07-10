@@ -22,7 +22,7 @@ struct SettingsView: View {
                     Text("Design")
                 }
                 NavigationLink(destination: LogView().navigationBarTitle("Credits", displayMode: .inline)) {
-                    Text("Credits (Coming soon™)")
+                    Text("Credits Richard Uckermark")
                 }
                 .disabled(true)
             }

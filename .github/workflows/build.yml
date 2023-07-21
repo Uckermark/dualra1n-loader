@@ -19,6 +19,6 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: ipa-package
+          name: dualra1n-loader
           path: packages/dualra1n-loader.ipa
           

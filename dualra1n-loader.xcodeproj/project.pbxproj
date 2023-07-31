@@ -18,6 +18,8 @@
 		D72D6B2129CC354A00F379AF /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72D6B2029CC354A00F379AF /* DeviceInfo.swift */; };
 		D753421029C9C1080057A767 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D753420F29C9C1080057A767 /* SceneDelegate.swift */; };
 		D776D1B929C114D200A9C00F /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = D776D1B829C114D200A9C00F /* Preferences.swift */; };
+		D77AAF7A2A77FF3B00B58638 /* substitute.deb in Frameworks */ = {isa = PBXBuildFile; fileRef = D77AAF792A77FF3B00B58638 /* substitute.deb */; };
+		D77AAF7C2A7825C200B58638 /* safemode.deb in Frameworks */ = {isa = PBXBuildFile; fileRef = D77AAF7B2A7825C200B58638 /* safemode.deb */; };
 		D77D8A0C29E5A68F0008CDEF /* deepsleepfix.deb in Resources */ = {isa = PBXBuildFile; fileRef = D71492CF29E55B160043B95A /* deepsleepfix.deb */; };
 		D7808B6E29DF3B0600CF204E /* trollstore13helper in Resources */ = {isa = PBXBuildFile; fileRef = D7808B6D29DF3B0600CF204E /* trollstore13helper */; };
 		D7808B7029DF3B4200CF204E /* TrollStore.tar in Resources */ = {isa = PBXBuildFile; fileRef = D7808B6F29DF3B4100CF204E /* TrollStore.tar */; };
@@ -57,6 +59,8 @@
 		D72D6B2029CC354A00F379AF /* DeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfo.swift; sourceTree = "<group>"; };
 		D753420F29C9C1080057A767 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		D776D1B829C114D200A9C00F /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
+		D77AAF792A77FF3B00B58638 /* substitute.deb */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = substitute.deb; sourceTree = "<group>"; };
+		D77AAF7B2A7825C200B58638 /* safemode.deb */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = safemode.deb; sourceTree = "<group>"; };
 		D7808B6D29DF3B0600CF204E /* trollstore13helper */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = trollstore13helper; sourceTree = "<group>"; };
 		D7808B6F29DF3B4100CF204E /* TrollStore.tar */ = {isa = PBXFileReference; lastKnownFileType = archive.tar; path = TrollStore.tar; sourceTree = "<group>"; };
 		D786928E29BCD7E600CCF161 /* BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
@@ -85,6 +89,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D784986629BF962100BBB869 /* IrregularGradient in Frameworks */,
+				D77AAF7C2A7825C200B58638 /* safemode.deb in Frameworks */,
+				D77AAF7A2A77FF3B00B58638 /* substitute.deb in Frameworks */,
 				D71492D029E55B160043B95A /* deepsleepfix.deb in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -130,6 +136,8 @@
 				D7808B6D29DF3B0600CF204E /* trollstore13helper */,
 				D7808B6F29DF3B4100CF204E /* TrollStore.tar */,
 				D71492CF29E55B160043B95A /* deepsleepfix.deb */,
+				D77AAF792A77FF3B00B58638 /* substitute.deb */,
+				D77AAF7B2A7825C200B58638 /* safemode.deb */,
 			);
 			path = Required;
 			sourceTree = "<group>";

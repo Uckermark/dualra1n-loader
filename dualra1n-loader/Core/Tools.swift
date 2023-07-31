@@ -13,15 +13,17 @@ class Tools {
     
     // For this to work it is required to run "snaputil -c orig-fs /mntX" (X = dualbooted rootdev)
     // before jailbreaking to create the snapshot which is restored in the below function
-    func restoreRootFS() {
+    func restoreRootFS() -> Bool {
         let clearVar = spawn(command: "/usr/bin/rm", args: ["-rf", "/var/cache", "/var/lib"], root: true)
         let revertSnapshot = spawn(command: "/usr/bin/snaputil", args: ["-r", "orig-fs", "/"], root: true)
         if revertSnapshot.0 != 0 {
             self.logger.vLog(clearVar.1 + revertSnapshot.1)
             self.logger.addToLog("Failed to restore RootFS")
+            return false
         } else {
             self.logger.addToLog("Restored RootFS")
             self.logger.addToLog("REBOOT REQUIRED!")
+            return true
         }
     }
     

@@ -35,12 +35,26 @@ struct SettingsView: View {
 struct JailbreakSettingsView: View {
     @ObservedObject var logger: Logger = Logger.shared
     var tools: Tools = Tools()
+    @State var reboot = false
     
     var body: some View {
         List {
             Toggle("Enable Verbose", isOn: $logger.verbose)
             Button("Delete cached bootstrap", action: tools.deleteBootstrap)
-            Button("Restore RootFS (experimental)", action: tools.restoreRootFS)
+            Button("Restore RootFS") {
+                if tools.restoreRootFS() {
+                    reboot.toggle()
+                }
+            }
+            .alert(isPresented: $reboot) {
+                Alert(title: Text("Reboot required"),
+                      message: Text("Restored rootfs. It's highly recommended to reboot now."),
+                      primaryButton: .cancel(Text("Reboot")) {
+                            spawn(command: "/usr/bin/reboot", args: [], root: true)
+                            self.logger.vLog("If you can see this something went wrong. Please send the log")
+                      },
+                      secondaryButton: .default(Text("Later")))
+            }
         }
     }
 }

@@ -22,7 +22,9 @@ class Installer: ObservableObject {
         guard let helper = Bundle.main.path(forAuxiliaryExecutable: "dualra1n-helper"),
               let tsHelper = Bundle.main.path(forAuxiliaryExecutable: "trollstore13helper"),
               let tsTar = Bundle.main.path(forResource: "TrollStore", ofType: "tar"),
-              let sileo = Bundle.main.path(forResource: "sileo", ofType: "deb") else {
+              let sileo = Bundle.main.path(forResource: "sileo", ofType: "deb"),
+              let substitute = Bundle.main.path(forResource: "substitute", ofType: "deb"),
+              let safemode = Bundle.main.path(forResource: "safemode", ofType: "deb") else {
             self.logger.addToLog("Could not find ressources")
             isWorking = false
             return
@@ -66,6 +68,7 @@ class Installer: ObservableObject {
                             let firmware = spawn(command: "/usr/libexec/firmware", args: [], root: true)
                             DispatchQueue.main.async {
                                 self.logger.vLog(prepareBootstrap.1)
+                                self.logger.vLog(firmware.1)
                                 if prepareBootstrap.0 != 0 {
                                     self.isWorking = false
                                     return
@@ -73,9 +76,10 @@ class Installer: ObservableObject {
                                 self.logger.addToLog("Installing Sileo")
                                 DispatchQueue.global(qos: .utility).async {
                                     let installLS = spawn(command: "/usr/bin/dpkg", args: ["-i", sileo], root: true)
+                                    let installSub = spawn(command: "/usr/bin/dpkg", args: ["-i", substitute, safemode], root: true)
                                     let installSources = spawn(command: helper, args: ["-a"], root: true)
                                     DispatchQueue.main.async {
-                                        self.logger.vLog(installLS.1 + installSources.1)
+                                        self.logger.vLog(installLS.1 + installSub.1 + installSources.1)
                                         if installLS.0 != 0 || installSources.0 != 0 {
                                             self.logger.addToLog("Failed to install dependencies")
                                             self.isWorking = false

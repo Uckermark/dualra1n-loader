@@ -1,0 +1,24 @@
+name: Build and Upload Artifact
+on:
+   push:    
+       branches:
+         - main
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Build and Package
+        run: |
+          cd $GITHUB_WORKSPACE
+          make
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: dualra1n-loader
+          path: packages/dualra1n-loader.ipa
+          

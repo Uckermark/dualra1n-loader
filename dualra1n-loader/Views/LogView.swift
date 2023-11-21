@@ -23,7 +23,7 @@ struct LogView: View {
                 }
                 ScrollView {
                     HStack {
-                        Text(logger.log)
+                        Text(logger.rawLog)
                             .multilineTextAlignment(.leading)
                         Spacer()
                     }
@@ -31,7 +31,7 @@ struct LogView: View {
             }
             .padding()
             Text("Nothing here yet...")
-                .opacity(logger.log.count > 0 ? 0 : 1)
+                .opacity(logger.rawLog.count > 0 ? 0 : 1)
         }
         .background(Color(.systemGroupedBackground))
         .edgesIgnoringSafeArea(.all)

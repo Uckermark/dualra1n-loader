@@ -1,6 +1,15 @@
 {
   "pins" : [
     {
+      "identity" : "argparse",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Uckermark/argparse.git",
+      "state" : {
+        "revision" : "02336638a51dc4d041999a8d6a0d1ea0d1f9bfb5",
+        "version" : "0.0.2"
+      }
+    },
+    {
       "identity" : "bitbytedata",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/tsolomko/BitByteData",
@@ -25,15 +34,6 @@
       "state" : {
         "branch" : "develop",
         "revision" : "1e7393dc54c2ec0a698e6eb1d6b9989624104447"
-      }
-    },
-    {
-      "identity" : "swift-argument-parser",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-argument-parser.git",
-      "state" : {
-        "revision" : "fee6933f37fde9a5e12a1e4aeaa93fe60116ff2a",
-        "version" : "1.2.2"
       }
     }
   ],

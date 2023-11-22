@@ -7,14 +7,14 @@
 // Most of this code belongs to Amy While and is from https://github.com/elihwyma/Pogo
 
 import Foundation
-import ArgumentParser
+import ArgParse
 import SWCompression
 
-struct Helper: ParsableCommand {
-    @Option(name: .shortAndLong, help: "The path to the .tar file you want to strap with")
-    var input: String?
+struct Helper: CommandLineArguments {
+    @Argument(help: "The path to the .tar file you want to strap with")
+    var input: String
     
-    @Flag(name: .shortAndLong, help: "add sources (experimental)")
+    @Flag(name: .short("a"), help: "add sources (experimental)")
     var autoSources = false
     
     mutating func run() throws {
@@ -22,7 +22,7 @@ struct Helper: ParsableCommand {
         guard getuid() == 0 else { fatalError() }
         if autoSources {
             addSource()
-        } else if let input = input {
+        } else {
             strapTool(input)
         }
     }

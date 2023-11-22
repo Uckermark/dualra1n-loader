@@ -52,7 +52,7 @@ class Installer: ObservableObject {
                 self.logger.addToLog("Extracting bootstrap")
                 DispatchQueue.global(qos: .utility).async { [self] in
                     let mountRoot = spawn(command: "/sbin/mount", args: ["-uw", "/"], root: true)
-                    let bootstrap = spawn(command: helper, args: ["-i", bootstrapURL.absoluteString.replacingOccurrences(of: "file://", with: "")], root: true)
+                    let bootstrap = spawn(command: helper, args: [bootstrapURL.absoluteString.replacingOccurrences(of: "file://", with: "")], root: true)
                     spawn(command: "/usr/bin/chmod", args: ["4755", "/usr/bin/sudo"], root: true)
                     spawn(command: "/usr/bin/chown", args: ["root:wheel", "/usr/bin/sudo"], root: true)
                     DispatchQueue.main.async {
@@ -77,7 +77,7 @@ class Installer: ObservableObject {
                                 DispatchQueue.global(qos: .utility).async {
                                     let installLS = spawn(command: "/usr/bin/dpkg", args: ["-i", sileo], root: true)
                                     let installSub = spawn(command: "/usr/bin/dpkg", args: ["-i", substitute, safemode], root: true)
-                                    let installSources = spawn(command: helper, args: ["-a"], root: true)
+                                    let installSources = spawn(command: helper, args: ["x", "-a"], root: true)
                                     DispatchQueue.main.async {
                                         self.logger.vLog(installLS.1 + installSub.1 + installSources.1)
                                         if installLS.0 != 0 || installSources.0 != 0 {

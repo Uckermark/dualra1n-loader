@@ -169,7 +169,7 @@ class Tools {
             return
         }
 
-        let installSources = spawn(command: helper, args: ["-a"], root: true)
+        let installSources = spawn(command: helper, args: ["noStrap", "-a"], root: true)
         if installSources.0 == 0 {
             self.logger.addToLog("Added sources")
         } else {

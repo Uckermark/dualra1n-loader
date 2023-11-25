@@ -13,7 +13,7 @@ struct dualra1nApp {
     static func main() {
         Logger.shared.addToRawLog(JBDevice().getInfoString())
         if #available(iOS 14.0, *) {
-            Not_a_bypass.main()
+            dualra1nLoader.main()
         } else {
             UIApplicationMain(CommandLine.argc, CommandLine.unsafeArgv, nil, NSStringFromClass(SceneDelegate.self))
         }
@@ -21,7 +21,7 @@ struct dualra1nApp {
 }
 
 @available(iOS 14.0, *)
-struct Not_a_bypass: App {
+struct dualra1nLoader: App {
     var body: some Scene {
         WindowGroup {
             ContentView()

@@ -40,11 +40,12 @@ class Installer: ObservableObject {
         let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         let bootstrapURL = documentsURL.appendingPathComponent(file)
         DispatchQueue.global(qos: .utility).async {
-            if(!FileManager.default.fileExists(atPath: bootstrapURL.absoluteString.replacingOccurrences(of: "file://", with: ""))) {
+            if(!FileManager.default.fileExists(atPath: bootstrapURL.path)) {
                 guard self.downloadFile(url: url, file: file) == 0 else {
                     DispatchQueue.main.async {
                         self.logger.addToLog("Failed to download bootstrap")
                     }
+                    self.isWorking = false
                     return
                 }
             }
@@ -52,7 +53,7 @@ class Installer: ObservableObject {
                 self.logger.addToLog("Extracting bootstrap")
                 DispatchQueue.global(qos: .utility).async { [self] in
                     let mountRoot = spawn(command: "/sbin/mount", args: ["-uw", "/"], root: true)
-                    let bootstrap = spawn(command: helper, args: [bootstrapURL.absoluteString.replacingOccurrences(of: "file://", with: "")], root: true)
+                    let bootstrap = spawn(command: helper, args: [bootstrapURL.path], root: true)
                     spawn(command: "/usr/bin/chmod", args: ["4755", "/usr/bin/sudo"], root: true)
                     spawn(command: "/usr/bin/chown", args: ["root:wheel", "/usr/bin/sudo"], root: true)
                     DispatchQueue.main.async {
@@ -129,9 +130,10 @@ class Installer: ObservableObject {
         let session = URLSession(configuration: config)
         let task = session.downloadTask(with: url) { tempLocalUrl, response, error in
             if let tempLocalUrl = tempLocalUrl, error == nil {
+                self.logger.vLog("Downloaded \(file) to \(tempLocalUrl)")
                 do {
                     try FileManager.default.copyItem(at: tempLocalUrl, to: fileURL)
-                    self.logger.vLog("Downloaded \(file)")
+                    self.logger.vLog("Copied \(file) to \(fileURL)")
                     result = 0
                     semaphore.signal()
                 } catch (let writeError) {

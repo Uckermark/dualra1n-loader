@@ -49,7 +49,7 @@ struct Helper: CommandLineArguments {
                                atomically: false, encoding: .utf8)
         } catch {
             NSLog("[dualra1n helper] Could not add apt source: \(error.localizedDescription)")
-            return
+            exit(1)
         }
         NSLog("[dualra1n helper] Added source successfully")
     }
@@ -112,12 +112,13 @@ struct Helper: CommandLineArguments {
                         }
                     } catch {
                         NSLog("[dualra1n helper] error \(error.localizedDescription)")
+                        exit(3)
                     }
                 }
             }
         } catch {
             NSLog("[dualra1n helper] Failed with error \(error.localizedDescription)")
-            return
+            exit(1)
         }
         NSLog("[dualra1n helper] Strapped to \(dest)")
         var attributes = [FileAttributeKey: Any]()
@@ -128,6 +129,7 @@ struct Helper: CommandLineArguments {
             try FileManager.default.setAttributes(attributes, ofItemAtPath: "/var/mobile")
         } catch {
             NSLog("[dualra1n helper] thats wild")
+            exit(2)
         }
     }
 }

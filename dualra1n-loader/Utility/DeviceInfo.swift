@@ -23,10 +23,7 @@ public class JBDevice {
     
     func getBootstrap() -> (url: URL?, file: String?) {
         let server = "https://uckermark.github.io/bootstrap/"
-        if iosVersion >= 16.0 {
-            Logger.shared.vLog("dualra1n-loader only supports 12.0-15.x")
-            return (nil, nil)
-        } else if iosVersion >= 15.0 {
+        if iosVersion >= 15.0 {
             return (URL(string: server + "bootstrap_1800.tar"), "bootstrap_1800.tar")
         }
         else if iosVersion >= 14.0 {

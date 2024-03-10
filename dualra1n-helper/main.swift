@@ -30,11 +30,6 @@ struct Helper: CommandLineArguments {
     func addSource() {
         let ironside = """
         Types: deb
-        URIs: https://apt.modiverse.co.uk/
-        Suites: ./
-        Components:
-        
-        Types: deb
         URIs: https://havoc.app/
         Suites: ./
         Components:
